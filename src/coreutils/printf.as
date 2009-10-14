@@ -24,13 +24,18 @@ package coreutils
 
     public const printf:Function = function(str:String, ...values):String
 	{
-		var regexp:RegExp = new RegExp("%\\d+","g");
-		return str.replace(regexp, repFunc);
+		regexp_values = values;
+		var strOut:String = str.replace(regexp, repFunc);
+		regexp_values = null;
+		return strOut;
 	}
     
 }
 
+internal var regexp_values:Array;
+internal var regexp:RegExp = new RegExp("%\\d+","g");
+
 internal const repFunc:Function = function():String 
 {
-	return String(values[parseInt(arguments[0].substr(1))+1]);
+	return String(regexp_values[parseInt(arguments[0].substr(1))+1]);
 }

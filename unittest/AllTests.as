@@ -3,6 +3,8 @@ package
     
     import astre.api.*;
 
+    import coreutils.*;
+    
     import flash.display.Sprite;
 
     public final class AllTests extends Sprite 
@@ -11,7 +13,7 @@ package
         public static function suite():TestSuite
         {
             var list:TestSuite = new TestSuite();
-            //list.add(path.to.sub.AllTests.suite());
+            list.add(coreutils.AllTests.suite());
             return list;
         }
 

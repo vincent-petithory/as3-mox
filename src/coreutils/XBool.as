@@ -32,9 +32,9 @@ package coreutils
 		    this.bools = bools;
 	    }
 		
-		public function getFlags(bools:uint):Boolean
+		public function getBool(bools:uint):Boolean
 		{
-			return (bools & flags) == flags;
+			return (this.bools & bools) == bools;
 		}
 	
 		public function setBools(bools:uint,value:Boolean):void
@@ -42,13 +42,13 @@ package coreutils
 			if (value)
 			{
 				// set 1 where there were 0
-				this.bools |= flags;
+				this.bools |= bools;
 			}
 			else
 			{
 				// take complementary to leave unconcerned flags unmodified
 				// use & to force 0 were there was 1 for concerned flags
-				this.bools &= ~flags;
+				this.bools &= ~bools;
 			}
 		}
 	

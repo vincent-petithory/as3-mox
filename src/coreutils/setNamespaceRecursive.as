@@ -34,7 +34,7 @@ package coreutils
             var elements:XMLList = xml.elements();
             for each (var e:XML in elements)
             {
-                setNamespace(e,ns,recursive);
+                setNamespaceRecursive(e,ns,recursive);
             }
         }
         

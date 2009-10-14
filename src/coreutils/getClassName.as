@@ -36,7 +36,7 @@ package coreutils
 		{
 			sepIndex+=2;
 		}
-		return qualifiedClassName.substring(sepIndex);
+		return qn.substring(sepIndex);
     }
     
 }

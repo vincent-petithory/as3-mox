@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<application xmlns="http://ns.adobe.com/air/application/1.5"> 
+	
+	<id>as3CoreUtils.UnitTest</id> 
+	<version>1.0</version> 
+	<filename>as3CoreUtils</filename> 
+	
+	<name>as3-core-utils Unit tests</name> 
+	<description>as3-core-utils Unit tests</description> 
+	<copyright></copyright> 
+	
+	<initialWindow> 
+		<title>as3-core-utils Unit tests</title> 
+		<content>as3CoreUtils_unit-tests.swf</content> 
+		<systemChrome>standard</systemChrome> 
+		<transparent>false</transparent> 
+		<visible>false</visible> 
+		<minimizable>true</minimizable> 
+		<maximizable>false</maximizable> 
+		<resizable>false</resizable> 
+	</initialWindow> 
+	
+</application>

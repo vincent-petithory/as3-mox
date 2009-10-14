@@ -26,16 +26,13 @@ package coreutils
 	{
 		if (source)
 		{
-			if (source is IHashable)
-			{
-				return (source as IHashable).hash();
-			}
-			else if (source is Number && !isNaN(Number(source)))
+			if (source is Number && !isNaN(Number(source)))
 			{
 				return int(source).valueOf();
 			}
 			else 
 			{
+				var string:String = String(source);
 				var length:int = string.length;
 		        var hash:int = 0;
 		
