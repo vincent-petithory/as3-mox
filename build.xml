@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project name="as3-coreutils" default="all" basedir=".">
+
+	<!-- Properties -->
+
+	<property file="${basedir}/build/build.properties" />
+
+	<taskdef 
+		file="${project.build.flexc.tasks}" 
+		classpath="${project.build.flexc.jar}" 
+	/>
+
+	<!-- Standard targets -->
+
+	<target name="distclean" description="cleans the distribution files">
+		<delete includeemptydirs="true">
+			<fileset dir="${project.lib}" includes="**/*"/>
+		</delete>
+		<delete includeemptydirs="true">
+			<fileset dir="${project.man}" includes="**/*"/>
+		</delete>
+	</target>
+
+	<target name="dist" description="makes the distribution files">
+		<antcall target="all" />
+		<asdoc air="true" failonerror="true">
+			<arg value="-sp ${project.src}" />
+			<arg value="-library-path+=${project.deps}" />
+			<arg value="-doc-sources ${project.input}" />
+			<arg value="-o ${project.man}/reference" />
+		</asdoc>
+	</target>
+    
+    <target name="all">
+    	<buildnumber file="${project.build.file}" />
+		<compc air="true" failonerror="true">
+			<arg value="-debug=true" />
+			<arg value="-incremental" />
+			<arg value="-sp ${project.src}" />
+			<arg value="-library-path+=${project.deps}" />
+			<arg value="-is ${project.input}" />
+			<arg value="-o ${project.output}" />
+		</compc>
+    </target>
+    <target name="clean" depends="distclean" />
+
+	<target name="check" description="runs unit tests">
+        <mxmlc air="true" failonerror="true">
+            <arg value="-debug=true" />
+            <arg value="-sp ${project.check.src}" />
+            <arg value="-sp ${project.src}" />
+			<arg value="-library-path+=${project.deps}" />
+			<arg value="-file-specs ${project.check.input}" />
+			<arg value="-o ${project.check.output}" />
+        </mxmlc>
+        <copy file="${project.check.appdesc.tmp}" tofile="${project.check.appdesc}">
+        	<filterchain>
+        		<expandproperties />
+        	</filterchain>
+        </copy>
+        <adl xml="${project.check.appdesc}" dir="${project.check.bin}" />
+    </target>
+    
+</project>
