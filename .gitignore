@@ -1,3 +1,5 @@
 lib
 man
 **/*.cache
+**/*.swc
+**/*.swf

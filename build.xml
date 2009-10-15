@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<project name="as3-core-utils" default="all" basedir=".">
+<project name="AS3 Core Utils" default="all" basedir=".">
 
 	<!-- Properties -->
 
@@ -34,7 +34,6 @@
     	<buildnumber file="${project.build.file}" />
 		<compc air="true" failonerror="true">
 			<arg value="-debug=true" />
-			<arg value="-incremental" />
 			<arg value="-sp ${project.src}" />
 			<arg value="-library-path+=${project.deps}" />
 			<arg value="-is ${project.input}" />
