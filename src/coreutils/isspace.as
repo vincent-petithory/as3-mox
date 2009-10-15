@@ -2,7 +2,7 @@
  * isspace.as
  * This file is part of as3-coreutils 
  *
- * Copyright (C) 2009 - Vincent
+ * Copyright (C) 2009 - Vincent Petithory
  *
  * as3-coreutils is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
