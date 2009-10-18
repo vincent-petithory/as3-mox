@@ -4,3 +4,5 @@ man
 **/*.swc
 **/*.swf
 **/*~
+unittest/*.xml
+!unittest/*-tmp.xml
