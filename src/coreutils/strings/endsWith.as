@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
  
-package coreutils 
+package coreutils.strings 
 {
 
     public const endsWith:Function = function(str:String, element:String):Boolean

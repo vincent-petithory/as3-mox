@@ -1,5 +1,5 @@
 /*
- * isalnum.as
+ * isspace.as
  * This file is part of as3-coreutils 
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,15 +19,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
  
-package coreutils 
+package coreutils.strings 
 {
 
-    public const isalnum:Function = function(str:String):Boolean
+    public const isspace:Function = function(str:String):Boolean
     {
         var ch:int = str.charCodeAt(0) 
-        return (ch >= 48 && ch <= 57) || 
-               (ch >= 65 && ch <= 90) || 
-               (ch >= 97 && ch <= 122);
+        return  ch == 0x0009 || ch == 0x000B || ch == 0x000C || 
+                ch == 0x0020 || ch == 0x000A || ch == 0x000D || 
+                ch == 0x0008 || ch == 0x0022 || ch == 0x0027 || 
+                ch == 0x005C;
     }
     
 }

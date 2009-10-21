@@ -1,5 +1,5 @@
 /*
- * printf.as
+ * isalnum.as
  * This file is part of as3-coreutils 
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,23 +19,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
  
-package coreutils 
+package coreutils.strings 
 {
 
-    public const printf:Function = function(str:String, ...values):String
-	{
-		regexp_values = values;
-		var strOut:String = str.replace(regexp, repFunc);
-		regexp_values = null;
-		return strOut;
-	}
+    public const isalnum:Function = function(str:String):Boolean
+    {
+        var ch:int = str.charCodeAt(0) 
+        return (ch >= 48 && ch <= 57) || 
+               (ch >= 65 && ch <= 90) || 
+               (ch >= 97 && ch <= 122);
+    }
     
-}
-
-internal var regexp_values:Array;
-internal var regexp:RegExp = new RegExp("%\\d+","g");
-
-internal const repFunc:Function = function():String 
-{
-	return String(regexp_values[parseInt(arguments[0].substr(1))+1]);
 }

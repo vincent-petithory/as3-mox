@@ -43,6 +43,7 @@
     <target name="clean">
     	<delete includeemptydirs="true">
 			<fileset dir="${project.lib}" includes="**/*"/>
+			<fileset dir="${project.check.bin}" includes="*.cache"/>
 			<fileset dir="${project.check.bin}" includes="*.swf"/>
 			<fileset dir="${project.check.bin}" includes="*.xml" excludes="*-tmp.xml"/>
 		</delete>
