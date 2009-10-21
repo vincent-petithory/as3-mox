@@ -49,9 +49,9 @@ public final class BitmapUtil
 	 * @param smooth set to <code class="prettyprint">true</code> to enable smoothing during process.
 	 * @return the resized image.
 	 */
-	public static function adapt(source:IBitmapDrawable, output:IBitmapOutput, maxWidth:Number, maxHeight:Number, smooth:Boolean = false):DisplayObject
+	public static function adapt(source:IBitmapDrawable, output:IBitmapOutput, maxWidth:Number, maxHeight:Number, smooth:Boolean = false):void
 	{
-		var bitmapData:BitmapData = BitmapUtil.getBitmapDataFrom(source);
+		var bitmapData:BitmapData = BitmapUtil.toBitmapData(source);
 			
 		var matrix:Matrix;
 		
@@ -70,18 +70,11 @@ public final class BitmapUtil
 		}
 		
 		matrix = new Matrix(drawRatio, 0, 0, drawRatio);
-		
-		var gxObj:Shape = new Shape();
-		
-		gxObj.graphics.beginBitmapFill(bitmapData, matrix, false, smooth);
-		gxObj.graphics.drawRect(0, 0, bitmapData.width*drawRatio, bitmapData.height*drawRatio);
-		gxObj.graphics.endFill();
-		
-		return gxObj;
+		output.drawBitmap(bitmapData,matrix,bitmapData.width*drawRatio,bitmapData.height*drawRatio,smooth);
 	}
-	public static function adaptForSize(source:IBitmapDrawable, availableSize:Number, smooth:Boolean = false):DisplayObject
+	public static function adaptForSize(source:IBitmapDrawable, output:IBitmapOutput, availableSize:Number, smooth:Boolean = false):void
 	{
-		return adapt(source,availableSize,availableSize,smooth);
+		adapt(source,output,availableSize,availableSize,smooth);
 	}
 	
 	/**
@@ -97,9 +90,9 @@ public final class BitmapUtil
 	 * @param smooth set to <code class="prettyprint">true</code> to enable smoothing during process.
 	 * @return the resized image.
 	 */
-	public static function clip(source:IBitmapDrawable, output:IBitmapOutput, width:Number, height:Number, smooth:Boolean = false):DisplayObject
+	public static function clip(source:IBitmapDrawable, output:IBitmapOutput, width:Number, height:Number, smooth:Boolean = false):void
 	{
-		var bitmapData:BitmapData = BitmapUtil.getBitmapDataFrom(source);
+		var bitmapData:BitmapData = BitmapUtil.toBitmapData(source);
 			
 		var inRatio:Number = bitmapData.width / bitmapData.height;
 		var outRatio:Number = width / height;
@@ -114,36 +107,7 @@ public final class BitmapUtil
 			matrix = new Matrix(width/bitmapData.width, 0, 0, width/bitmapData.width);
 		}
 		
-		var gxObj:Shape = new Shape();
-		
-		gxObj.graphics.beginBitmapFill(bitmapData, matrix, false, smooth);
-		gxObj.graphics.drawRect(0, 0, width, height);
-		gxObj.graphics.endFill();
-		
-		return gxObj;
-	}
-	
-	/**
-	 * Returns a copy of the provided object.
-	 * @param source the <code class="prettyprint">IBitmapDrawable</code> to copy.
-	 * @return a copy of the provided object.
-	 */
-	public static function toBitmapData(source:IBitmapDrawable):BitmapData
-	{
-		if (source is BitmapData)
-		{
-			return (source as BitmapData).clone();
-		}
-		else if (source is Bitmap)
-		{
-			return (source as Bitmap).bitmapData.clone();
-		}
-		else
-		{
-			var bitmapData:BitmapData = new BitmapData((source as DisplayObject).width, (source as DisplayObject).height, true);
-			bitmapData.draw(source);
-			return bitmapData;
-		}
+		output.drawBitmap(bitmapData,matrix,width,height,smooth);
 	}
 	
 	public static function toDisplayObject(source:IBitmapDrawable):DisplayObject
@@ -161,53 +125,27 @@ public final class BitmapUtil
 	 * @param source the graphic object.
 	 * @return a bitmap data of the provided object
 	 */
-	public static function getBitmapData(source:IBitmapDrawable):BitmapData
+	public static function toBitmapData(source:IBitmapDrawable, smooth:Boolean = false):BitmapData
 	{
 		var bitmapData:BitmapData;
 		
 		if (source is BitmapData)
 		{
-			return (source as BitmapData);
+            bitmapData = source as BitmapData;
+		    bitmapData = new BitmapData(bitmapData.width, bitmapData.height, bitmapData.transparent, 0x00000000);
+			bitmapData.draw(source,null,null,null,null,smooth);
+			return (source as BitmapData).clone();
 		}
 		else if (source is Bitmap)
 		{
-			return (source as Bitmap).bitmapData;
+			return toBitmapData((source as Bitmap).bitmapData,smooth);
 		}
-		else if (source is DisplayObject)
+		else // it is a display object
 		{
 			bitmapData = new BitmapData((source as DisplayObject).width, (source as DisplayObject).height, true, 0x00000000);
-			bitmapData.draw(source as DisplayObject);
+			bitmapData.draw(source,null,null,null,null,smooth);
 			return bitmapData;
 		}
-		else if (source is Class)
-		{
-			var bmp:Bitmap;
-			var SourceClass:Class = source as Class;
-			try
-			{
-				bmp = Bitmap(new SourceClass());
-			} catch (e:Error)
-			{
-				throw new ArgumentError("source must be either a DisplayObject, a Class or a BitmapData");
-			}
-			return bmp.bitmapData;
-		}
-		else
-		{
-			throw new ArgumentError("source must be either a DisplayObject, a Class or a BitmapData");
-		}
-	}
-	
-	/**
-	 * Returns a <code class="prettyprint">Bitmap</code> object of the element with smoothing enabled.
-	 * @param source the graphic object.
-	 * @return a <code class="prettyprint">Bitmap</code> object of the element with smoothing enabled.
-	 */
-	public static function smooth(source:IBitmapDrawable):Bitmap
-	{
-		var bitmapData:BitmapData = BitmapUtil.getBitmapData(source);
-		var bitmap:Bitmap = new Bitmap(bitmapData, "auto", true);
-		return bitmap;
 	}
 	
 	/**
@@ -220,61 +158,36 @@ public final class BitmapUtil
 	 * @param smooth set to <code class="prettyprint">true</code> to enable smoothing during process.
 	 * @return the resized image.
 	 */
-	public static function stretch(source:IBitmapDrawable, output:IBitmapOutput, width:Number, height:Number, smooth:Boolean = false):DisplayObject
+	public static function stretch(source:IBitmapDrawable, output:IBitmapOutput, width:Number, height:Number, smooth:Boolean = false):void
 	{
-		var bitmapData:BitmapData = BitmapUtil.getBitmapDataFrom(source);
+		var bitmapData:BitmapData = BitmapUtil.toBitmapData(source);
 			
 		var matrix:Matrix = new Matrix(width/bitmapData.width, 0, 0, height/bitmapData.height);
-		
-		var gxObj:Shape = new Shape();
-		
-		gxObj.graphics.beginBitmapFill(bitmapData, matrix, false, smooth);
-		gxObj.graphics.drawRect(0, 0, width, height);
-		gxObj.graphics.endFill();
-		
-		return gxObj;
+		output.drawBitmap(bitmapData,matrix,width,height,smooth);
 	}
 	
-	public static function horizontalMirror(source:IBitmapDrawable, output:IBitmapOutput, smooth:Boolean = false):DisplayObject
+	public static function horizontalMirror(source:IBitmapDrawable, output:IBitmapOutput, smooth:Boolean = false):void
 	{
-		var bitmapData:BitmapData = getBitmapDataFrom(source);
+		var bitmapData:BitmapData = toBitmapData(source);
 		var matrix:Matrix = new Matrix(-1, 0, 0, 1, bitmapData.width);
 		
-		var gxObj:Shape = new Shape();
-		
-		gxObj.graphics.beginBitmapFill(bitmapData, matrix, false);
-		gxObj.graphics.drawRect(0, 0, bitmapData.width, bitmapData.height);
-		gxObj.graphics.endFill();
-		
-		return gxObj;
+		output.drawBitmap(bitmapData,matrix,bitmapData.width,bitmapData.height,smooth);
 	}
 	
-	public static function verticalMirror(source:IBitmapDrawable, output:IBitmapOutput, smooth:Boolean = false):DisplayObject
+	public static function verticalMirror(source:IBitmapDrawable, output:IBitmapOutput, smooth:Boolean = false):void
 	{
-		var bitmapData:BitmapData = getBitmapDataFrom(source);
+		var bitmapData:BitmapData = toBitmapData(source);
 		var matrix:Matrix = new Matrix(1, 0, 0, -1, 0, bitmapData.height);
 		
-		var gxObj:Shape = new Shape();
-		
-		gxObj.graphics.beginBitmapFill(bitmapData, matrix, false);
-		gxObj.graphics.drawRect(0, 0, bitmapData.width, bitmapData.height);
-		gxObj.graphics.endFill();
-		
-		return gxObj;
+		output.drawBitmap(bitmapData,matrix,bitmapData.width,bitmapData.height,smooth);
 	}
 	
-	public static function mirror(source:IBitmapDrawable, output:IBitmapOutput, smooth:Boolean = false):DisplayObject
+	public static function mirror(source:IBitmapDrawable, output:IBitmapOutput, smooth:Boolean = false):void
 	{
-		var bitmapData:BitmapData = getBitmapDataFrom(source);
+		var bitmapData:BitmapData = toBitmapData(source);
 		var matrix:Matrix = new Matrix(-1, 0, 0, -1, bitmapData.width, bitmapData.height);
 		
-		var gxObj:Shape = new Shape();
-		
-		gxObj.graphics.beginBitmapFill(bitmapData, matrix, false, smooth);
-		gxObj.graphics.drawRect(0, 0, bitmapData.width, bitmapData.height);
-		gxObj.graphics.endFill();
-		
-		return gxObj;
+		output.drawBitmap(bitmapData,matrix,bitmapData.width,bitmapData.height,smooth);
 	}
 	
 	/**
@@ -338,60 +251,30 @@ public final class BitmapUtil
 		return copy;
 	}
 	
-	public static function leftHorizontalCut(source:IBitmapDrawable, output:IBitmapOutput, xRatio:Number = 0.5, smooth:Boolean = false):DisplayObject
+	public static function leftHorizontalCut(source:IBitmapDrawable, output:IBitmapOutput, xRatio:Number = 0.5, smooth:Boolean = false):void
 	{
-		var bitmapData:BitmapData = getBitmapDataFrom(source);
-		
-		var leftPart:Shape = new Shape();
-		
-		leftPart.graphics.beginBitmapFill(bitmapData, new Matrix(), false, smooth);
-		leftPart.graphics.drawRect(0, 0, bitmapData.width*xRatio, bitmapData.height);
-		leftPart.graphics.endFill();
-		
-		return leftPart;
+		var bitmapData:BitmapData = toBitmapData(source);
+		output.drawBitmap(bitmapData,new Matrix(),bitmapData.width*xRatio,bitmapData.height,smooth);
 	}
 	
-	public static function rightHorizontalCut(source:IBitmapDrawable, output:IBitmapOutput, xRatio:Number = 0.5, smooth:Boolean = false):DisplayObject
+	public static function rightHorizontalCut(source:IBitmapDrawable, output:IBitmapOutput, xRatio:Number = 0.5, smooth:Boolean = false):void
 	{
-		var bitmapData:BitmapData = getBitmapDataFrom(source);
-		
-		var rightPart:Shape = new Shape();
-		
+		var bitmapData:BitmapData = toBitmapData(source);
 		var indentMatrix:Matrix = new Matrix(1, 0, 0, 1, -bitmapData.width*xRatio, 0);
-		
-		rightPart.graphics.beginBitmapFill(bitmapData, indentMatrix, false, smooth);
-		rightPart.graphics.drawRect(0, 0, bitmapData.width*(1-xRatio), bitmapData.height);
-		rightPart.graphics.endFill();
-		
-		return rightPart;
+		output.drawBitmap(bitmapData, indentMatrix, bitmapData.width*(1-xRatio), bitmapData.height, smooth);
 	}
 	
-	public static function topVerticalCut(source:IBitmapDrawable, output:IBitmapOutput, yRatio:Number = 0.5, smooth:Boolean = false):DisplayObject
+	public static function topVerticalCut(source:IBitmapDrawable, output:IBitmapOutput, yRatio:Number = 0.5, smooth:Boolean = false):void
 	{
-		var bitmapData:BitmapData = getBitmapDataFrom(source);
-		
-		var topPart:Shape = new Shape();
-		
-		topPart.graphics.beginBitmapFill(bitmapData, new Matrix(), false, smooth);
-		topPart.graphics.drawRect(0, 0, bitmapData.width, bitmapData.height*yRatio);
-		topPart.graphics.endFill();
-		
-		return topPart;
+		var bitmapData:BitmapData = toBitmapData(source);
+		output.drawBitmap(bitmapData, new Matrix(), bitmapData.width, bitmapData.height*yRatio, smooth);
 	}
 	
-	public static function bottomVerticalCut(source:IBitmapDrawable, output:IBitmapOutput, yRatio:Number = 0.5, smooth:Boolean = false):DisplayObject
+	public static function bottomVerticalCut(source:IBitmapDrawable, output:IBitmapOutput, yRatio:Number = 0.5, smooth:Boolean = false):void
 	{
-		var bitmapData:BitmapData = getBitmapDataFrom(source);
-		
-		var bottomPart:Shape = new Shape();
-		
+		var bitmapData:BitmapData = toBitmapData(source);
 		var indentMatrix:Matrix = new Matrix(1, 0, 0, 1, 0, -bitmapData.height*yRatio);
-		
-		bottomPart.graphics.beginBitmapFill(bitmapData, indentMatrix, false, smooth);
-		bottomPart.graphics.drawRect(0, 0, bitmapData.width, bitmapData.height*(1-yRatio));
-		bottomPart.graphics.endFill();
-		
-		return bottomPart;
+		output.drawBitmap(bitmapData, indentMatrix, bitmapData.width, bitmapData.height*(1-yRatio), smooth);
 	}
 	
 	public static function applyFilter(targetBitmapData:BitmapData, sourceBitmapData:BitmapData, sourceRect:Rectangle, destPoint:Point, filter:BitmapFilter):BitmapData
