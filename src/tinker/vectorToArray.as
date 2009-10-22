@@ -1,5 +1,5 @@
 /*
- * setlocale.as
+ * vectorToArray.as
  * This file is part of Tinker
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package tinker 
 {
-    
-    import astre.api.*;
-
-    import flash.display.Sprite;
-	import tinker.*;
 	
+	public const vectorToArray:Function = function(vector:*):Array
+	{
+		var n:int = vector.length;
+		var array:Array = new Array(n);
+		while (--n>-1)
+		{
+			array[n] = vector[n];
+		}
+		return array;
+	}
 	
-    public final class AllTests extends Sprite 
-    {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(tinker.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
-    }
 }
-

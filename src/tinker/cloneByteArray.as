@@ -1,5 +1,5 @@
 /*
- * setlocale.as
+ * cloneByteArray.as
  * This file is part of Tinker
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,21 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package tinker 
 {
-    
-    import astre.api.*;
 
-    import flash.display.Sprite;
-	import tinker.*;
-	
-	
-    public final class AllTests extends Sprite 
+    import flash.utils.ByteArray;
+
+	public const cloneByteArray:Function = function(
+	                                            byteArray:ByteArray
+                                            ):ByteArray
     {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(tinker.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
-    }
+        var bytes:ByteArray = new ByteArray();
+        bytes.objectEncoding = byteArray.objectEncoding;
+        bytes.endian = byteArray.endian;
+        bytes.writeBytes(byteArray);
+        bytes.position = 0;
+        return bytes;
+	}
+    
 }
-

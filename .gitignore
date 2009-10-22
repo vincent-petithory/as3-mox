@@ -3,6 +3,6 @@ man
 **/*.cache
 **/*.swc
 **/*.swf
-**/*~
 unittest/*.xml
-!unittest/*-tmp.xml
+!**/*-tmp.xml
+

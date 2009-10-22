@@ -1,5 +1,5 @@
 /*
- * setlocale.as
+ * setNamespaceRecursive.as
  * This file is part of Tinker
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package tinker 
 {
-    
-    import astre.api.*;
 
-    import flash.display.Sprite;
-	import tinker.*;
-	
-	
-    public final class AllTests extends Sprite 
+    public const setNamespaceRecursive:Function = function(
+                                            xml:XML, 
+                                            ns:Namespace, 
+                                            recursive:Boolean = true
+                                        ):void 
     {
-        
-        public static function suite():TestSuite
+        xml.setNamespace(ns);
+        if (recursive && xml.hasComplexContent())
         {
-            var list:TestSuite = new TestSuite();
-            list.add(tinker.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
+            var elements:XMLList = xml.elements();
+            for each (var e:XML in elements)
+            {
+                setNamespaceRecursive(e,ns,recursive);
+            }
         }
         
     }
+    
 }
-

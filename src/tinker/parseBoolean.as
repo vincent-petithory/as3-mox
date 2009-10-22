@@ -1,5 +1,5 @@
 /*
- * setlocale.as
+ * parseBoolean.as
  * This file is part of Tinker
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,31 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package tinker 
 {
-    
-    import astre.api.*;
 
-    import flash.display.Sprite;
-	import tinker.*;
+	public const parseBoolean:Function = function(value:*):Boolean
+	{
+		if (value is String)
+		{
+			if (value.toLowerCase() == "true")
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else if (value is XML || value is XMLList)
+		{
+			return parseBoolean(String(value));
+		}
+		else
+		{
+			return Boolean(value);
+		}
+		
+	}
 	
-	
-    public final class AllTests extends Sprite 
-    {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(tinker.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
-    }
 }
-

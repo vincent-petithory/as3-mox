@@ -1,5 +1,5 @@
 /*
- * setlocale.as
+ * ShapeOutput.as
  * This file is part of Tinker
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package tinker.graphics.outputs 
 {
     
-    import astre.api.*;
+    import flash.display.Shape;
+    import flash.display.BitmapData;
+    import flash.geom.Matrix;
+    
+    import tinker.graphics.IBitmapOutput;
 
-    import flash.display.Sprite;
-	import tinker.*;
-	
-	
-    public final class AllTests extends Sprite 
+    public class ShapeOutput extends Shape implements IBitmapOutput 
     {
         
-        public static function suite():TestSuite
+        public function drawBitmap(source:BitmapData, matrix:Matrix, width:Number,height:Number,smooth:Boolean):void
         {
-            var list:TestSuite = new TestSuite();
-            list.add(tinker.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
+            this.graphics.beginBitmapFill(source, matrix, false, smooth);
+		    this.graphics.drawRect(0, 0, width, height);
+		    this.graphics.endFill();
         }
         
     }
+    
 }
-

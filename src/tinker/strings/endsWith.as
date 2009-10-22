@@ -1,5 +1,5 @@
 /*
- * setlocale.as
+ * endsWith.as
  * This file is part of Tinker
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package tinker.strings 
 {
+
+    public const endsWith:Function = function(str:String, element:String):Boolean
+	{
+		var index:int = str.lastIndexOf(element);
+		if (index == -1)
+			return false;
+		if (index+element.length != str.length)
+			return false;
+
+		return true;
+	}
     
-    import astre.api.*;
-
-    import flash.display.Sprite;
-	import tinker.*;
-	
-	
-    public final class AllTests extends Sprite 
-    {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(tinker.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
-    }
 }
-

@@ -19,28 +19,20 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package tinker 
 {
     
     import astre.api.*;
 
-    import flash.display.Sprite;
-	import tinker.*;
-	
-	
-    public final class AllTests extends Sprite 
+    public final class AllTests 
     {
         
         public static function suite():TestSuite
         {
             var list:TestSuite = new TestSuite();
-            list.add(tinker.AllTests.suite());
+            list.add(signalTest);
+            list.add(varDumpTest);
             return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
         }
         
     }

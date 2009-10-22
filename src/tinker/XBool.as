@@ -1,5 +1,5 @@
 /*
- * setlocale.as
+ * XBool.as
  * This file is part of Tinker
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,49 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package tinker 
 {
-    
-    import astre.api.*;
 
-    import flash.display.Sprite;
-	import tinker.*;
-	
-	
-    public final class AllTests extends Sprite 
+    public class XBool 
     {
+        private var bools:uint;
         
-        public static function suite():TestSuite
+        public function XBool(bools:uint)
         {
-            var list:TestSuite = new TestSuite();
-            list.add(tinker.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
+		    super();
+		    this.bools = bools;
+	    }
+		
+		public function getBool(bools:uint):Boolean
+		{
+			return (this.bools & bools) == bools;
+		}
+	
+		public function setBools(bools:uint,value:Boolean):void
+		{
+			if (value)
+			{
+				// set 1 where there were 0
+				this.bools |= bools;
+			}
+			else
+			{
+				// take complementary to leave unconcerned flags unmodified
+				// use & to force 0 were there was 1 for concerned flags
+				this.bools &= ~bools;
+			}
+		}
+	
+		public function toString():String
+		{
+			return this.bools.toString(2);
+		}
+	
+		public function valueOf():uint
+		{
+			return this.bools;
+		}
     }
+    
 }
 
