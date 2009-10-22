@@ -25,7 +25,7 @@ package coreutils
     import flash.utils.ByteArray;
     import flash.filesystem.*;
 
-    public const file2bytes:Function = function(file:File):ByteArray
+    public function file2bytes(file:File):ByteArray
     {
         var stream:FileStream = new FileStream();
         if (!file)

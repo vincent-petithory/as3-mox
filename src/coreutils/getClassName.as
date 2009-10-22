@@ -24,7 +24,7 @@ package coreutils
 
 	import flash.utils.getQualifiedClassName;
 
-    public const getClassName:Function = function(object:Object):String
+    public function getClassName(object:Object):String
 	{
 		var qn:String = getQualifiedClassName(object);
 		var sepIndex:int = qn.lastIndexOf("::");

@@ -10,6 +10,7 @@ package coreutils
         {
             var list:TestSuite = new TestSuite();
             list.add(signalTest);
+            list.add(varDumpTest);
             return list;
         }
         

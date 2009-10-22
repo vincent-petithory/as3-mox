@@ -40,7 +40,7 @@ package coreutils
 	 * @return <code class="prettyprint">true</code> if the provided parameter 
 	 * pass is of one of the quoted types.
 	 */
-	public const isPrimitive:Function = function(obj:Object):Boolean
+	public function isPrimitive(obj:Object):Boolean
 	{
 		if (obj is Boolean || 
 			obj is int || obj is Number || 
