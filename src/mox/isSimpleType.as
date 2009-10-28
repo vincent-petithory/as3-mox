@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * isSimpleType.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,37 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox 
 {
-    
-    import astre.api.*;
 
-    import flash.display.Sprite;
-	import mox.*;
+	/**
+	 * Returns <code>true</code> if the provided parameter 
+	 * is of one of these types :
+	 * 
+	 * <ul>
+	 * <li>Boolean</li>
+	 * <li>int</li>
+	 * <li>Number</li>
+	 * <li>String</li>
+	 * <li>uint</li>
+	 * </ul>
+	 * 
+	 * Thoses types are passed by value.
+	 * 
+	 * @param obj The object to test.
+	 * @return <code class="prettyprint">true</code> if the provided parameter 
+	 * pass is of one of the quoted types.
+	 */
+	public function isSimpleType(obj:Object):Boolean
+	{
+		if (obj is Boolean || 
+			obj is int || obj is Number || 
+			obj is String || obj is uint
+		)
+		{
+			return true;
+		}
+		return false;
+	}
 	
-	
-    public final class AllTests extends Sprite 
-    {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
-    }
 }
-

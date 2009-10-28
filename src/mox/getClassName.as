@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * getClassName.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox 
 {
-    
-    import astre.api.*;
 
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
-    {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
-        }
+	import flash.utils.getQualifiedClassName;
 
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
+    public function getClassName(object:Object):String
+	{
+		var qn:String = getQualifiedClassName(object);
+		var sepIndex:int = qn.lastIndexOf("::");
+		if (sepIndex == -1) // Top-level class
+		{
+			sepIndex = qn.lastIndexOf(".")+1;
+		}
+		else
+		{
+			sepIndex+=2;
+		}
+		return qn.substring(sepIndex);
     }
+    
 }
 

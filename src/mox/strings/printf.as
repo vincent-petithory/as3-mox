@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * printf.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox.strings 
 {
+
+    public const printf:Function = function(str:String, ...values):String
+	{
+		regexp_values = values;
+		var strOut:String = str.replace(regexp, repFunc);
+		regexp_values = null;
+		return strOut;
+	}
     
-    import astre.api.*;
-
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
-    {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
-    }
 }
 
+internal var regexp_values:Array;
+internal var regexp:RegExp = new RegExp("%\\d+","g");
+
+internal const repFunc:Function = function():String 
+{
+	return String(regexp_values[parseInt(arguments[0].substr(1))+1]);
+}

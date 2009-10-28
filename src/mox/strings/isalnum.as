@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * isalnum.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox.strings 
 {
-    
-    import astre.api.*;
 
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
+    public const isalnum:Function = function(str:String):Boolean
     {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
+        var ch:int = str.charCodeAt(0) 
+        return (ch >= 48 && ch <= 57) || 
+               (ch >= 65 && ch <= 90) || 
+               (ch >= 97 && ch <= 122);
     }
+    
 }
-

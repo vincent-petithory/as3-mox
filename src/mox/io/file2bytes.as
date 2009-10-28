@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * file2bytes.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,30 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox 
 {
     
-    import astre.api.*;
+    import flash.utils.ByteArray;
+    import flash.filesystem.*;
 
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
+    public function file2bytes(file:File):ByteArray
     {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
-        }
+        var stream:FileStream = new FileStream();
+        if (!file)
+            throw new ArgumentError("<file> cannot be null");
 
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
+        if (!file.exists)
+            throw new ArgumentError("<file> does not exist");
+
+        // let the possible errors bubble up
+        var bytes:ByteArray = new ByteArray();
+        stream.open(file,FileMode.READ);
+        bytes.endian = stream.endian;
+        bytes.objectEncoding = stream.objectEncoding;
+        stream.readBytes(bytes);
+        stream.close();
+        bytes.position = 0;
+        return bytes;
     }
+    
 }
-

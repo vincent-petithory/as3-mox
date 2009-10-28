@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * xmlEscape.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox 
 {
-    
-    import astre.api.*;
 
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
+    public const xmlEscape:Function = function(str:String):String
     {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
+        return str.replace(/\&/g,"&amp;").
+                replace(/\</g,"&lt;").
+                replace(/\>/g,"&gt;").
+                replace(/\'/g,"&apos;").
+                replace(/\"/g,"&quot;");
     }
+    
 }
 

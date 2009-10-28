@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * isEmailValid.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -18,31 +18,15 @@
  * along with Mox; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
- */
-package 
+ */ 
+package mox 
 {
-    
-    import astre.api.*;
 
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
-    {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
-    }
+public const isEmailValid:Function = function (email:String):Boolean 
+{
+	return __REG_EXP_EMAIL.test(email);
 }
 
+}
+
+internal const __REG_EXP_EMAIL:RegExp = new RegExp("^\\w+\\.*[0-9A-Za-z]+@\\w+\\.[a-zA-Z]{2,6}$");

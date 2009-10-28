@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * assert.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,29 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox.debug 
 {
-    
-    import astre.api.*;
 
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
+    /**
+     * Asserts that the specified condition is true. 
+     * If not, an error is thrown with the specified message.
+     * 
+     * <p>Optionally, a custom error can be provided. 
+     * It will then be filled with the message parameter.</p>
+     * 
+     * @throws Error if the condition is not true
+     */
+    public function assert(condition:Boolean, message:String, error:Error = null):void
     {
-        
-        public static function suite():TestSuite
+        if (!condition)
         {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
+            if (error == null)
+                error = new Error();
+            
+            error.message = message;
+            throw error;
         }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
     }
+    
 }
 

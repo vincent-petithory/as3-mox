@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * endsWith.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox.strings 
 {
+
+    public const endsWith:Function = function(str:String, element:String):Boolean
+	{
+		var index:int = str.lastIndexOf(element);
+		if (index == -1)
+			return false;
+		if (index+element.length != str.length)
+			return false;
+
+		return true;
+	}
     
-    import astre.api.*;
-
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
-    {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
-    }
 }
-

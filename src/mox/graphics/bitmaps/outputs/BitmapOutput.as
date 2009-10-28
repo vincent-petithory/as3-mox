@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * BitmapOutput.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox.graphics.outputs 
 {
     
-    import astre.api.*;
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+    import flash.geom.Matrix;
+    
+    import mox.graphics.IBitmapOutput;
 
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
+    public class BitmapOutput extends Bitmap implements IBitmapOutput 
     {
         
-        public static function suite():TestSuite
+        public function drawBitmap(source:BitmapData, matrix:Matrix, width:Number,height:Number,smooth:Boolean):void
         {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
+            var bitmap:BitmapData = new BitmapData(width,height,true,0x00000000);
+            bitmap.draw(source,matrix,null,null,null,smooth);
+            this.bitmapData = bitmap;
         }
         
     }
+    
 }
-

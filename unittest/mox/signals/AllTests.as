@@ -19,30 +19,21 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox.signals 
 {
     
     import astre.api.*;
 
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
+    public final class AllTests 
     {
         
         public static function suite():TestSuite
         {
             var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
+            list.add(BroadcasterTest);
+            list.add(signalTest);
             return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
         }
         
     }
 }
-

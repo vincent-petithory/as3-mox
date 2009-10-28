@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * VarDumpGeneralObject.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,19 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox.mocks 
 {
-    
-    import astre.api.*;
 
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
+    public class VarDumpGeneralObject 
     {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
-        }
-        
+    
+        public var nvar:String = "nvar";
+        public const nconst:String = "nconst";
+        public function get ngetter():String { return "ngetter";}
+        public function get ngettersetter():String { return "ngettersetter";}
+        public function set ngettersetter(value:String):void {}
+        public function set nsetter(value:String):void {}
+    
     }
+    
 }
-

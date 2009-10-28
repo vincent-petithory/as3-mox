@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<project name="Tinker" default="all" basedir=".">
+<project name="Mox" default="all" basedir=".">
 
 	<!-- Project properties -->
 	
 	<!-- The project name (canonical form) -->
-	<property name="project.name" value="as3-tinker" />
+	<property name="project.name" value="as3-mox" />
 	<!-- The project major version -->
 	<property name="project.version.major" value="0" />
 	<!-- The project minor version -->

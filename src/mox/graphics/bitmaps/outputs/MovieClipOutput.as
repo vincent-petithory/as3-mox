@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * MovieClipOutput.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox.graphics.outputs 
 {
+    import flash.display.MovieClip;
+    import flash.display.BitmapData;
+    import flash.geom.Matrix;
     
-    import astre.api.*;
+    import mox.graphics.IBitmapOutput;
 
-    import flash.display.Sprite;
-	import mox.*;
-	
-	
-    public final class AllTests extends Sprite 
+    public class MovieClipOutput extends MovieClip implements IBitmapOutput 
     {
-        
-        public static function suite():TestSuite
+        public function drawBitmap(source:BitmapData, matrix:Matrix, width:Number,height:Number,smooth:Boolean):void
         {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.AllTests.suite());
-            return list;
-        }
-
-        public function AllTests()
-        {
-            CLITestRunner.run(suite());
+            this.graphics.beginBitmapFill(source, matrix, false, smooth);
+		    this.graphics.drawRect(0, 0, width, height);
+		    this.graphics.endFill();
         }
         
     }
+    
 }
-
