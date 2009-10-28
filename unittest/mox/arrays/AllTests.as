@@ -19,14 +19,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox 
+package mox.arrays 
 {
-    
+
     import astre.api.*;
-    
-    import mox.arrays.*;
-    import mox.debug.*;
-    import mox.signals.*;
     
     public final class AllTests 
     {
@@ -34,12 +30,10 @@ package mox
         public static function suite():TestSuite
         {
             var list:TestSuite = new TestSuite();
-            list.add(mox.arrays.AllTests.suite());
-            list.add(mox.debug.AllTests.suite());
-            list.add(mox.signals.AllTests.suite());
+            list.add(WeakArrayTest);
             return list;
         }
         
     }
+    
 }
-
