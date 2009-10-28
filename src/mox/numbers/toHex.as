@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox 
+package mox.numbers 
 {
 
 	public const toHex:Function = function (color:uint):String

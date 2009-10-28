@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox 
+package mox.arrays 
 {
 	
 	public const vectorToArray:Function = function(vector:*):Array
