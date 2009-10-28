@@ -65,18 +65,170 @@ package mox.arrays
         // Array API
         //---------------------------------------------------------------------
         
+        public function get length():uint
+        {
+			return this.array.length;
+		}
+        
+        public function concat(...args):WeakArray
+        {
+			return fromArray(this.array.concat.apply(null,args));
+		}
+		
+		public function every(callback:Function, thisObject:* = null):Boolean
+		{
+			var a:Array = this.toArray();
+			return a.every(callback,thisObject);
+		}
+		
+		public function filter(callback:Function, thisObject:* = null):WeakArray
+		{
+			return fromArray(this.toArray().filter(callback,thisObject));
+		}
+		
+		public function forEach(callback:Function, thisObject:* = null):void
+		{
+			var a:Array = this.toArray();
+			a.forEach(callback,thisObject);
+			this.array = fromArray(a).array;
+		}
+		
+		public function indexOf(searchElement:*, fromIndex:int = 0):int
+		{
+			return this.toArray().indexOf(searchElement,fromIndex);
+		}
+        
+        public function join(sep:*):String
+        {
+			return this.toArray().join(sep);
+		}
+        
+        public function lastIndexOf(searchElement:*, fromIndex:int = 0x7fffffff):int
+        {
+			return this.toArray().lastIndexOf(searchElement,fromIndex);
+		}
+        
+        public function pop():*
+		{
+			var d:Dictionary = this.array.pop();
+			for (var val:* in d)
+                    return val;
+		}
+        
         public function push(...args):uint
         {
-            var l:int = args.length;
-            var args2:Array = new Array(l)
-            while (--l>-1)
+            return this.array.push.apply(null,atoda(args));
+        }
+        
+        public function reverse():WeakArray
+        {
+			var reverseArray:Array = this.array.reverse();
+			var reverseWA:WeakArray = new WeakArray();
+			reverseWA.array = reverseArray;
+			return reverseWA;
+		}
+		
+		public function shift():*
+		{
+			var d:Dictionary = this.array.shift();
+			for (var val:* in d)
+                    return val;
+		}
+		
+		public function slice(startIndex:int = 0, endIndex:int = 16777215):WeakArray
+		{
+			var a:Array = this.array.slice(startIndex,endIndex);
+			var wa:WeakArray = new WeakArray();
+			wa.array = a;
+			return wa;
+		}
+		
+		public function some(callback:Function, thisObject:* = null):Boolean
+		{
+			var a:Array = this.toArray();
+			return a.some(callback,thisObject);
+		}
+		
+		public function sort(...args):WeakArray
+		{
+			var a:Array = this.array.sort.apply(null,args);
+			var wa:WeakArray = new WeakArray();
+			wa.array = a;
+			return wa;
+		}
+		
+		public function sortOn(fieldName:Object, options:Object = null):WeakArray
+		{
+			var a:Array = this.array.sortOn(fieldName,options);
+			var wa:WeakArray = new WeakArray();
+			wa.array = a;
+			return wa;
+		}
+		
+		public function splice(startIndex:int, deleteCount:int, ...values):WeakArray
+		{
+			var args:Array = [startIndex,deleteCount].concat(values);
+			var a:Array = this.array.splice.apply(null,args);
+			return fromArray(a);
+		}
+		
+		public function toLocaleString():String
+		{
+			return this.toArray().toLocaleString();
+		}
+		
+		public function toString():String
+		{
+			return this.toArray().toString();
+		}
+		
+		public function unshift(...args):void
+        {
+			this.array.push.apply(null,atoda(args));
+		}
+		
+		//---------------------------------------------------------------------
+	    // WeakArray specific API
+	    //---------------------------------------------------------------------
+	    
+	    public function toArray():Array
+	    {
+			var n:int = this.array.length;
+			var a:Array = new Array(n);
+			while (--n>-1)
+			{
+				a[n] = this.flash_proxy::getProperty(n);
+			}
+			return a;
+		}
+		
+        /**
+         * Array to Dictionary Array
+         */
+        protected function atoda(a:Array):Array
+        {
+			var n:int = a.length;
+            var da:Array = new Array(n);
+            while (--n>-1)
             {
                 var d:Dictionary = new Dictionary(true);
-	            d[args[l]] = true;
-                args2[l] = d;
+	            d[a[n]] = true;
+                da[n] = d;
             }
-            return this.array.push.apply(null,args2);
-        }
+            return da;
+		}
+		
+		public static function fromArray(array:Array):WeakArray
+        {
+			var n:int = array.length;
+			var wa:WeakArray = new WeakArray(n);
+			while (--n>-1)
+			{
+				// Does the required insertion of a Dictionary
+				wa[n] = array[n];
+			}
+			return wa;
+		}
         
         //---------------------------------------------------------------------
 	    // flash_proxy overrides
@@ -119,9 +271,7 @@ package mox.arrays
             if (d != null)
             {
                 for (var val:* in d)
-                {
                     return val;
-                }
             }
 		    return undefined;
 	    }
