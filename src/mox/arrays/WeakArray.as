@@ -27,7 +27,12 @@ package mox.arrays
     import flash.utils.Dictionary;
     import flash.utils.Proxy;
     import flash.utils.flash_proxy;
-
+	
+	/**
+	 * A WeakArray works the same as an Array, except that it 
+	 * holds weak references to the objects it contains, instead of 
+	 * strong references.
+	 */
     public dynamic class WeakArray extends Proxy 
     {
     
@@ -64,6 +69,12 @@ package mox.arrays
         //---------------------------------------------------------------------
         // Array API
         //---------------------------------------------------------------------
+        
+        public static const CASESENSITIVE:uint = 1 << 0;
+        public static const DESCENDING:uint = 1 << 1;
+        public static const UNIQUESORT:uint = 1 << 2;
+        public static const RETURNINDEXEDARRAY:uint = 1 << 3;
+        public static const NUMERIC:uint = 1 << 4;
         
         public function get length():uint
         {

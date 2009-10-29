@@ -33,13 +33,13 @@ package mox.signals
         
         override public function setUp():void
         {
-            signal("*","*");
+            signal("*","*",-1);
             _someFuncCalledTimes = 0;
         }
         
         override public function tearDown():void
         {
-            signal("*","*");
+            signal("*","*",-1);
         }
         
         public function implicitAddSignalAndTriggerItIsOk():void
