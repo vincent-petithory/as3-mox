@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * equalsAny.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,21 +19,26 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox.debug 
+package mox.logic 
 {
-    
-    import astre.api.*;
 
-    public final class AllTests 
+    /**
+     * Evaluate if an object is equal to any item in a list.
+     * 
+     * @return <code>true</code> if one of 
+     * the <code>what</code> optional parameters equals <code>who</code>
+     * If no optional parameters is provided, returns <code>false</code>.
+     */
+    public function equalsAny(who:*, ...what):Boolean
     {
-        
-        public static function suite():TestSuite
+        var c:*;
+        for each (c in what)
         {
-            var list:TestSuite = new TestSuite();
-            list.add(varDumpTest);
-            return list;
+            if (who == c)
+                return true;
         }
-        
+        return false;
     }
+    
 }
 

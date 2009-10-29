@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * equalsAny.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,21 +19,32 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox.debug 
+package mox.logic 
 {
-    
+
     import astre.api.*;
 
-    public final class AllTests 
+    public class equalsAny extends Test 
     {
-        
-        public static function suite():TestSuite
+        public function equalsAny(name:String)
         {
-            var list:TestSuite = new TestSuite();
-            list.add(varDumpTest);
-            return list;
+            super(name);
+        }
+        
+        public function basicTest():void
+        {
+            var item:String = "item";
+            assertTrue(equalsAny(item,"items", "itemss", "item", "item2"));
+            assertFalse(equalsAny(item,"items", "itemss", "itemx", "item2"));
+        }
+        
+        public function basicTestShowingThatItUsesNormalEqualityTest():void
+        {
+            var item:int = 1;
+            assertTrue(equalsAny(item,"1", 4546, "item", "item2"));
+            assertTrue(equalsAny(item,1, "itemss", "item", "item2"));
         }
         
     }
+    
 }
-
