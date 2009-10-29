@@ -26,7 +26,7 @@ package mox.graphics.bitmaps.outputs
     import flash.display.BitmapData;
     import flash.geom.Matrix;
     
-    import mox.graphics.IBitmapOutput;
+    import mox.graphics.bitmaps.IBitmapOutput;
 
     public class ShapeOutput extends Shape implements IBitmapOutput 
     {
