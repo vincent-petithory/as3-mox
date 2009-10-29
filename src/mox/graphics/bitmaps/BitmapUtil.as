@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox.graphics 
+package mox.graphics.bitmaps 
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
