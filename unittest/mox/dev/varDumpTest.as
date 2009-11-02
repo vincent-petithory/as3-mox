@@ -19,14 +19,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox.debug 
+package mox.dev 
 {
 
     import astre.api.*;
     
+    import flash.errors.StackOverflowError;
+    import flash.display.Sprite;
     import flash.utils.ByteArray;
     import flash.utils.describeType;
-    import flash.display.Sprite;
     
     import mox.mocks.*;
     
@@ -384,6 +385,28 @@ package mox.debug
             var cls:Class = Sprite;
             var result:String = "Class(flash.display::Sprite)";
             assertEquals(result, varDump(cls));
+        }
+        
+        public function dumpRecursivityCheck():void
+        {
+            var objectWithCircularReference:Object = {};
+            objectWithCircularReference.id = 10;
+            objectWithCircularReference.self = objectWithCircularReference;
+            
+            var result:String = "Object() {\n"+
+            "    [id] =>\n"+
+            "    int(10)\n"+
+            "    [self] =>\n"+
+            "    *RECURSION*\n"+
+            "}";
+            
+            try 
+            {
+                assertEquals(result, varDump(objectWithCircularReference));
+            } catch (e:StackOverflowError)
+            {
+                fail("Recursivity not detected and it should have been");
+            }
         }
         
     }

@@ -1,5 +1,5 @@
 /*
- * getClass.as
+ * getClassName.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,48 +19,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox 
+package mox.reflect 
 {
 
-    import flash.errors.IllegalOperationError;
-	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 
-    public const getClass:Function = function(object:Object):Class
-    {
-        var type:*;
-		if (object is Class)
+    public function getClassName(object:Object):String
+	{
+		var qn:String = getQualifiedClassName(object);
+		var sepIndex:int = qn.lastIndexOf("::");
+		if (sepIndex == -1) // Top-level class
 		{
-			type = object as Class;
+			sepIndex = qn.lastIndexOf(".")+1;
 		}
-		else if (object is String)
+		else
 		{
-			var string:String = object as String;
-			try	{
-				type = getDefinitionByName(string) as Class;
-			} catch (e:ReferenceError)
-			{
-				type = String;
-			}
-			finally
-			{
-				return type;
-			}
+			sepIndex+=2;
 		}
-		else 
-		{
-			try {
-				type = getDefinitionByName(
-					getQualifiedClassName(object)
-				) as Class;
-			} catch (e:ReferenceError)
-			{
-				throw new IllegalOperationError(
-					"Local classes cannot be resolved"
-				);
-			}
-		}
-		return type;
+		return qn.substring(sepIndex);
     }
     
 }
+

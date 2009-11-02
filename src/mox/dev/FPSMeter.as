@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox.debug 
+package mox.dev 
 {
 	
 	public const FPSMeter:_FPSMeter = new _FPSMeter();

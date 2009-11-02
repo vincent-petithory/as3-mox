@@ -1,5 +1,5 @@
 /*
- * isComplexType.as
+ * stdout.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,30 +19,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox 
+package mox.dev 
 {
-
-	/**
-	 * Returns <code>true</code> if the provided parameter 
-	 * is of one of these types :
-	 * 
-	 * <ul>
-	 * <li>Boolean</li>
-	 * <li>int</li>
-	 * <li>Number</li>
-	 * <li>String</li>
-	 * <li>uint</li>
-	 * </ul>
-	 * 
-	 * Thoses types are passed by value.
-	 * 
-	 * @param obj The object to test.
-	 * @return <code class="prettyprint">true</code> if the provided parameter 
-	 * pass is of one of the quoted types.
-	 */
-	public function isComplexType(obj:Object):Boolean
-	{
-		return !isSimpleType(obj);
-	}
-	
+    /**
+     * It is not a buffered stream. It's rather a function in which 
+     * you can pass string data to print out. You are free to 
+     * choose your output.
+     * It is used in varDump.
+     */
+    public var stdout:Function = trace;
 }
+
