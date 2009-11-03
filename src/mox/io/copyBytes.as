@@ -1,5 +1,5 @@
 /*
- * cloneByteArray.as
+ * copyBytes.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -24,9 +24,7 @@ package mox.io
 
     import flash.utils.ByteArray;
 
-	public const cloneByteArray:Function = function(
-	                                            byteArray:ByteArray
-                                            ):ByteArray
+	public function copyBytes(byteArray:ByteArray):ByteArray
     {
         var bytes:ByteArray = new ByteArray();
         bytes.objectEncoding = byteArray.objectEncoding;
