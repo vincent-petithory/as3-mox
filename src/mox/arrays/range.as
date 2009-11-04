@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * range.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -22,20 +22,29 @@
 package mox.arrays 
 {
 
-    import astre.api.*;
-    
-    public final class AllTests 
+    public function range(array:*, start:Number, end:Number, step:Number = 1):*
     {
-        
-        public static function suite():TestSuite
+        if (step==0)
+            throw new ArgumentError("step should not be zero.")
+            
+        if (end<start)
         {
-            var list:TestSuite = new TestSuite();
-            list.add(WeakArrayTest);
-            list.add(vectorToArrayTest);
-            list.add(rangeTest);
-            return list;
+            if (step>0)
+                return array;
         }
-        
+        if (end>start)
+        {
+            if (step<0)
+                return array;
+        }
+        var length:int = Math.floor(Math.abs((end-start)/step));
+        array.length = length;
+        var i:int = -1;
+        while (++i < length)
+        {
+            array[i] = start + step*i;
+        }
+        return array;
     }
     
 }

@@ -31,7 +31,7 @@ package
     import flash.text.TextField;
     import flash.text.TextFormat;
     
-    import mox.getClassName;
+    import mox.reflect.getClassName;
     
     public class SampleBase extends Sprite 
     {

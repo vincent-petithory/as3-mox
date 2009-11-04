@@ -39,6 +39,16 @@ package mox.dev
             super(name);
         }
         
+        override public function setUp():void
+        {
+            stdout = null;
+        }
+        
+        override public function tearDown():void
+        {
+            stdout = trace;
+        }
+        
         public function dumpSimpleTypeTest():void
         {
             var s:String = "SomeString";

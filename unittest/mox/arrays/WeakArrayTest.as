@@ -28,8 +28,6 @@ package mox.arrays
     import flash.utils.Dictionary;
     import flash.utils.setInterval;
     
-    import mox.debug.gc;
-
     public class WeakArrayTest extends Test 
     {
         public function WeakArrayTest(name:String)

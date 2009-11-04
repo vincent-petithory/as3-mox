@@ -22,17 +22,16 @@
 package 
 {
     
-    import mox.*;
+    import mox.dev.*;
 
     public class VarDumpSample extends SampleBase 
     {
         public function VarDumpSample()
         {
             super();
-            
             // display a string
             var str:String = "I m a the value of a String";
-            println(mox.varDump(str));
+            println(varDump(str));
         }
         
     }
