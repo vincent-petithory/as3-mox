@@ -4,5 +4,6 @@ man
 **/*.swc
 **/*.swf
 unittest/*.xml
+samples/*.xml
 !**/*-tmp.xml
 
