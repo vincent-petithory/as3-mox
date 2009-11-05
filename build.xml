@@ -104,7 +104,6 @@
 		    <arg value="-define=CFG::vector,&quot;CFG::air || CFG::player > 9&quot;" />
 		    <arg value="-define=CFG::array,&quot;!CFG::vector&quot;" />
             <arg value="-debug=${debug}" />
-            <arg value="-incremental" />
             <arg value="-target-player=${player}" />
             <arg value="-sp ${project.check.src}" />
             <arg value="-sp ${project.src}" />

@@ -26,6 +26,7 @@ package mox
     
     import mox.arrays.*;
     import mox.dev.*;
+    import mox.logic.*;
     import mox.signals.*;
     
     public final class AllTests 
@@ -36,6 +37,7 @@ package mox
             var list:TestSuite = new TestSuite();
             list.add(mox.arrays.AllTests.suite());
             list.add(mox.dev.AllTests.suite());
+            list.add(mox.logic.AllTests.suite());
             list.add(mox.signals.AllTests.suite());
             return list;
         }

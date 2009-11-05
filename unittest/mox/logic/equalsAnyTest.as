@@ -1,5 +1,5 @@
 /*
- * equalsAny.as
+ * equalsAnyTest.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -24,9 +24,9 @@ package mox.logic
 
     import astre.api.*;
 
-    public class equalsAny extends Test 
+    public class equalsAnyTest extends Test 
     {
-        public function equalsAny(name:String)
+        public function equalsAnyTest(name:String)
         {
             super(name);
         }
