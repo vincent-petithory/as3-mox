@@ -316,7 +316,6 @@ package mox.arrays
             assertEquals(keys.length,iterator.length);
             for each (var key:String in keys)
 			{
-				trace(key, expected[key],dict[key]);
 				assertEquals(expected[key],dict[key]);
 			}
         }
