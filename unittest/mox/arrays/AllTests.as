@@ -31,6 +31,7 @@ package mox.arrays
         {
             var list:TestSuite = new TestSuite();
             list.add(WeakArrayTest);
+            list.add(DictionaryIteratorTest);
             list.add(ListIteratorTest);
             list.add(vectorToArrayTest);
             list.add(rangeTest);

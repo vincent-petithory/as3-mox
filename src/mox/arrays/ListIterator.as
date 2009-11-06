@@ -1,15 +1,15 @@
 /*
  * ListIterator.as
- * This file is part of <program name>
+ * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
  *
- * <program name> is free software; you can redistribute it and/or modify
+ * Mox is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
- * <program name> is distributed in the hope that it will be useful,
+ * Mox is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -39,13 +39,30 @@ package mox.arrays
      */
     public class ListIterator 
     {
-    
+		
+		/**
+		 * The list this ListIterator manages.
+		 */
         protected var $list:*;
         
+		/**
+		 * The position of the cursor in the list.
+		 */
         protected var $cursor:int;
         
+		/**
+		 * @private
+		 */
         private var _allowEditMethodCall:Boolean = false;
-    
+		
+		/**
+		 * Constructor.
+		 * 
+		 * @param list The list this ListIterator will manage.
+		 * 
+		 * @throws ArgumentError if the specifed list is not supported or is 
+		 * not a list based object.
+		 */
         public function ListIterator(list:*)
         {
             super();
@@ -79,6 +96,8 @@ package mox.arrays
          * between the element that would be returned by previous() and the 
          * element that would be returned by next().</p>
          * 
+		 * @param element The new element to add at the current position.
+		 * 
          * @throws ArgumentError if the element could not be added 
          * for some reason (e.g, the type of the element is not compatible 
          * with the one the list allows, the length of the list 
@@ -191,9 +210,9 @@ package mox.arrays
         
         /**
          * Returns the index of the previous element, or 
-         * list.length if no more element is available.
+         * -1 if no more element is available.
          * @return the index of the previous element, or 
-         * list.length if no more element is available.
+         * -1 if no more element is available.
          */
         public function previousIndex():int
         {
@@ -246,9 +265,15 @@ package mox.arrays
          * called, and remove() has not been called after the last call 
          * to next() or previous().
          * 
+		 * @param element the new element to set at the current position.
+		 * 
          * @throws IllegalOperationError if next() or previous has 
          * not been called, or remove() has been called after the last call 
          * to next() or previous().
+		 * @throws ArgumentError if the element could not be added 
+         * for some reason (e.g, the type of the element is not compatible 
+         * with the one the list allows, the length of the list 
+         * could not be changed, etc.).
          */
         public function set(element:*):void
         {
@@ -256,7 +281,15 @@ package mox.arrays
             {
                 throw new IllegalOperationError("next() or previous() must be called prior to set()");
             }
-            this.$list[$cursor-1] = element;
+			try 
+			{
+				this.$list[$cursor-1] = element;
+			} catch (e:Error)
+			{
+				throw new ArgumentError("The element could not be set "+
+					"for the following reason : "+e.message
+				);
+			}
             _allowEditMethodCall = false;
         }
     }
