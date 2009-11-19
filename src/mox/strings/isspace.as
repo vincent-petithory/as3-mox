@@ -22,13 +22,12 @@
 package mox.strings 
 {
 
-    public const isspace:Function = function(str:String):Boolean
+    public function isspace(str:String):Boolean
     {
-        var ch:int = str.charCodeAt(0) 
-        return  ch == 0x0009 || ch == 0x000B || ch == 0x000C || 
-                ch == 0x0020 || ch == 0x000A || ch == 0x000D || 
-                ch == 0x0008 || ch == 0x0022 || ch == 0x0027 || 
-                ch == 0x005C;
+        var ch:int = str.charCodeAt(0);
+        return  ch == 0x0020 || ch == 0x000B || ch == 0x000C || 
+                ch == 0x0009 || ch == 0x000A || ch == 0x000D || 
+                ch == 0x0008 || ch == 0x005C;
     }
     
 }

@@ -22,9 +22,16 @@
 package mox.strings 
 {
 
-    public const isalnum:Function = function(str:String):Boolean
+	/**
+	 * Returns true if the specified char is alphanumeric.
+	 * 
+	 * <p>An alphanumeric char is in the ranges a-z,A-Z,0-9</p>
+	 * 
+	 * @return true if the specified char is alphanumeric.
+	 */
+    public function isalnum(str:String):Boolean
     {
-        var ch:int = str.charCodeAt(0) 
+        var ch:int = str.charCodeAt(0);
         return (ch >= 48 && ch <= 57) || 
                (ch >= 65 && ch <= 90) || 
                (ch >= 97 && ch <= 122);

@@ -46,10 +46,16 @@ package mox.strings
 			assertEquals(string, trim(string));
 		}
 
-        public function heterogenouseMixOfWhitespacesIsTrimmed():void
+        public function heterogeneousMixOfWhitespacesIsTrimmed():void
 		{
 			var string:String = "\r\t  \n\rcontent\n \t  \r\n\n ";
 			assertEquals("content", trim(string));
+		}
+		
+		public function checkPreserveQuotes():void
+		{
+			var string:String = "\r\t '\"content'\" \r\n\n ";
+			assertEquals("'\"content'\"", trim(string));
 		}        
         
     }
