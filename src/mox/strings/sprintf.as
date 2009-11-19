@@ -21,21 +21,23 @@
  */
 package mox.strings 
 {
-
-    public const printf:Function = function(str:String, ...values):String
+	
+	/**
+	 * Formats the specified string, using the specified values.
+	 */
+    public function sprintf(str:String, ...values):String
 	{
-		regexp_values = values;
-		var strOut:String = str.replace(regexp, repFunc);
-		regexp_values = null;
+		regexpValues = values;
+		var strOut:String = str.replace(tokenPattern, repFunc);
+		regexpValues = null;
 		return strOut;
 	}
     
 }
 
-internal var regexp_values:Array;
-internal var regexp:RegExp = new RegExp("%\\d+","g");
+internal var regexpValues:Array;
 
 internal const repFunc:Function = function():String 
 {
-	return String(regexp_values[parseInt(arguments[0].substr(1))+1]);
+	return String(regexpValues[parseInt(arguments[0].substr(1))]);
 }

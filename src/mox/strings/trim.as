@@ -22,44 +22,68 @@
 package mox.strings 
 {
     /**
-	 * Removes all whitespace character at the beginning and at 
-	 * the end of the specified string.
-	 * @param str the string to trim
-	 * @return the trimmed string
-	 */
-    public const trim:Function = function(str:String):String
+     * Removes all whitespace character at the beginning and at 
+     * the end of the specified string.
+     * @param string the string to trim
+     * @return the trimmed string
+     */
+    public function trim(string:String):String
     {
-        var p:int = 0;
-		trimLeft:while (true)
-		{
-			switch(str.charAt(p))
-			{
-				case Unicode.TAB:
-				case Unicode.LINE_FEED:
-				case Unicode.SPACE:
-				case Unicode.CARRIAGE_RETURN:
-					p++;
-					continue trimLeft;
-			}
-			str = str.substr(p);
-			break trimLeft;
-		}
-		p = str.length - 1;
-		trimRight:while (true)
-		{
-			switch(str.charAt(p))
-			{
-				case Unicode.TAB:
-				case Unicode.LINE_FEED:
-				case Unicode.SPACE:
-				case Unicode.CARRIAGE_RETURN:
-					p--;
-					continue trimRight;
-			}
-			str = str.substring(0, ++p);
-			break trimRight;
-		}
-		return str;
+        var i:int = 0;
+        var len:int = string.length;
+        var leftIndex:int = 0;
+        while (i<len)
+        {
+            if (!isspace(string.charAt(i)))
+            {
+                leftIndex = i;
+                break;
+            }
+            i++;
+        }
+        var rightIndex:int = len;
+        i = 0;
+        while (i<len)
+        {
+            if (!isspace(string.charAt(len-(i+1))))
+            {
+                rightIndex = len-i;
+                break;
+            }
+            i++;
+        }
+        return string.substring(leftIndex,rightIndex);
+        // var p:int = 0;
+        // trimLeft:while (true)
+        // {
+            // switch(str.charAt(p))
+            // {
+                // case Unicode.TAB:
+                // case Unicode.LINE_FEED:
+                // case Unicode.SPACE:
+                // case Unicode.CARRIAGE_RETURN:
+                    // p++;
+                    // continue trimLeft;
+            // }
+            // str = str.substr(p);
+            // break trimLeft;
+        // }
+        // p = str.length - 1;
+        // trimRight:while (true)
+        // {
+            // switch(str.charAt(p))
+            // {
+                // case Unicode.TAB:
+                // case Unicode.LINE_FEED:
+                // case Unicode.SPACE:
+                // case Unicode.CARRIAGE_RETURN:
+                    // p--;
+                    // continue trimRight;
+            // }
+            // str = str.substring(0, ++p);
+            // break trimRight;
+        // }
+        // return str;
     }
     
 }
