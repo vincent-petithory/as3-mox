@@ -26,6 +26,6 @@ package mox.strings
 	 * Defines the pattern that token-based functions 
 	 * use to manipulate strings.
 	 */
-	public var tokenPattern:RegExp = /{\d+}/g;
+	public const tokenPattern:RegExp = /{[\d|\w]+}/g;
     
 }

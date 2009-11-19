@@ -24,20 +24,25 @@ package mox.strings
 	
 	/**
 	 * Formats the specified string, using the specified values.
+	 * @param str the string to format.
+	 * @param values a collection of values to insert. 
+	 * It can be an Array, Vector.<*>, Dictionary, Object, or any object that 
+	 * matches the keys of the string.
 	 */
-    public function sprintf(str:String, ...values):String
+    public function sprintf(string:String, values:* = undefined):String
 	{
 		regexpValues = values;
-		var strOut:String = str.replace(tokenPattern, repFunc);
+		var stringOut:String = string.replace(tokenPattern, repFunc);
 		regexpValues = null;
-		return strOut;
+		return stringOut;
 	}
     
 }
 
-internal var regexpValues:Array;
+internal var regexpValues:*;
 
 internal const repFunc:Function = function():String 
 {
-	return String(regexpValues[parseInt(arguments[0].substr(1))]);
+	var token:String = arguments[0];
+	return String(regexpValues[token.substring(1,token.length-1)]);
 }

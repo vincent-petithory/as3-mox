@@ -35,42 +35,52 @@ package mox.strings
         {
             var string:String = "My name is {0} {1}";
 			var expected:String = "My name is Vincent Petithory";
-			assertEquals(expected, sprintf(string, "Vincent", "Petithory"));
+			assertEquals(expected, sprintf(string, ["Vincent", "Petithory"]));
+        }
+        
+        public function replaceTokensWithASpecificClassInstance():void
+        {
+            var string:String = "My name is {firstName} {lastName}";
+            var developer:Developer = new Developer("Vincent","Petithory");
+			var expected:String = "My name is Vincent Petithory";
+			assertEquals(expected, sprintf(string, developer));
         }
 		
 		public function inputRemainsUnchangedIfNoTokensAreFound():void
 		{
 			var string:String = "My name is Vincent Petithory";
 			assertEquals(string, sprintf(string));
-			assertEquals(string, sprintf(string, "Vincent", "Petithory"));
+			assertEquals(string, sprintf(string, ["Vincent", "Petithory"]));
 		}
 		
 		public function shuffledTokensAreReplacedByTheCorrectElements():void
 		{
 			var string:String = "{2}, an {0} {3} {1}.";
 			var expected:String = "Mox, an Actionscript 3.0 toolkit.";
-			assertEquals(expected, sprintf(string, "Actionscript", "toolkit", "Mox","3.0"));
+			assertEquals(expected, sprintf(string, ["Actionscript", "toolkit", "Mox","3.0"]));
 		}
 		
-		public function changingTheTokenPatternAtRuntimeIsOk():void
+		public function replaceTokensUsingAnObject():void
 		{
-			const previousPattern:RegExp = tokenPattern;
-			tokenPattern = /%\d+/g;
-			var string:String = "My name is %0 %1";
-			var expected:String = "My name is Vincent Petithory";
-			try 
-			{
-				assertEquals(expected, sprintf(string, "Vincent", "Petithory"));
-			} catch (e:Error)
-			{
-				throw e;
-			} finally
-			{
-				tokenPattern = previousPattern;
-			}
-			
+			var string:String = "{project}, an {language} {version} {type}.";
+			var expected:String = "Mox, an Actionscript 3.0 toolkit.";
+			assertEquals(expected, sprintf(string, {language:"Actionscript", type:"toolkit", project:"Mox", version:"3.0"}));
 		}
         
     }
     
 }
+
+internal class Developer 
+{
+
+	public var firstName:String;
+	public var lastName:String;
+	
+    public function Developer(firstName:String, lastName:String)
+    {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+}
+
