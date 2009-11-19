@@ -26,18 +26,11 @@ package mox.bools
 	{
 		if (value is String)
 		{
-			if (value.toLowerCase() == "true")
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			return value.toLowerCase() == "true";
 		}
 		else if (value is XML || value is XMLList)
 		{
-			return parseBoolean(String(value));
+			return parseBoolean(value.toString());
 		}
 		else
 		{
