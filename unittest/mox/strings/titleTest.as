@@ -1,5 +1,5 @@
 /*
- * nothing.as
+ * titleTest.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,20 +19,32 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox.strings 
 {
-   
-   /**
-    * The nothing constant is an additional type to 
-    * <code>null</code> and <code>void</code>.
-    * 
-    * <p>It is mainly used as a return type. As an example, a function 
-    * may return the value of an array's item. If that item does not exist, 
-    * typically, either null is returned or an error is thrown. The problem is 
-    * that the item can have the <code>null</code> value. 
-    * Using the <code>nothing</code> constant instead of 
-    * <code>null</code> makes clear an item does not exist.</p>
-    */
-   public const nothing:* = new Object();
-   
+
+    import astre.api.*;
+
+    public class titleTest extends Test 
+    {
+        public function titleTest(name:String)
+        {
+            super(name);
+        }
+        
+        public function titleSpaceSeparetedWords():void
+        {
+            var string:String = "Some text to 'titlize'";
+			var expected:String = "Some Text To 'Titlize'";
+			assertEquals(expected, title(string));
+        }
+		
+		public function titleSpaceAndUnderscoreSeparetedWords():void
+		{
+			var string:String =   "some text to titlize -and- i like RGB_colors";
+			var expected:String = "Some Text To Titlize -And- I Like Rgb_Colors";
+			assertEquals(expected, title(string));
+		}
+		
+    }
+    
 }

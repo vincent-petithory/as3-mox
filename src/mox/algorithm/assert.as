@@ -1,5 +1,5 @@
 /*
- * equalsAnyTest.as
+ * assert.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,32 +19,29 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox.logic 
+package mox.algorithm 
 {
 
-    import astre.api.*;
-
-    public class equalsAnyTest extends Test 
+    /**
+     * Asserts that the specified condition is true. 
+     * If not, an error is thrown with the specified message.
+     * 
+     * <p>Optionally, a custom error can be provided. 
+     * It will then be filled with the message parameter.</p>
+     * 
+     * @throws Error if the condition is not true
+     */
+    public function assert(condition:Boolean, message:String, error:Error = null):void
     {
-        public function equalsAnyTest(name:String)
+        if (!condition)
         {
-            super(name);
+            if (error == null)
+                error = new Error();
+            
+            error.message = message;
+            throw error;
         }
-        
-        public function basicTest():void
-        {
-            var item:String = "item";
-            assertTrue(equalsAny(item,"items", "itemss", "item", "item2"));
-            assertFalse(equalsAny(item,"items", "itemss", "itemx", "item2"));
-        }
-        
-        public function basicTestShowingThatItUsesNormalEqualityTest():void
-        {
-            var item:int = 1;
-            assertTrue(equalsAny(item,"1", 4546, "item", "item2"));
-            assertTrue(equalsAny(item,1, "itemss", "item", "item2"));
-        }
-        
     }
     
 }
+

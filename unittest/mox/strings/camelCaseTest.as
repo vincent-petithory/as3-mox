@@ -34,15 +34,17 @@ package mox.strings
         public function camelCaseSpaceSeparetedWords():void
         {
             var string:String = "Some text to camel case";
-			var expected:String = "SomeTextToCamelCase";
+			var expected:String = "someTextToCamelCase";
 			assertEquals(expected, camelCase(string));
         }
 		
 		public function camelCaseSpaceAndUnderscoreSeparetedWords():void
 		{
 			var string:String = "Some text to camel case : RGB_color";
-			var expected:String = "SomeTextToCamelCaseRGBColor";
-			assertEquals(expected, camelCase(string));
+			var expected1:String = "someTextToCamelCaseRgbColor";
+			var expected2:String = "SomeTextToCamelCaseRGBColor";
+			assertEquals(expected1, camelCase(string));
+			assertEquals(expected2, camelCase(string,true));
 		}
 		
     }

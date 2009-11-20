@@ -30,8 +30,11 @@ package mox.strings
         public static function suite():TestSuite
         {
             var list:TestSuite = new TestSuite();
+            list.add(camelCaseTest);
+            list.add(capitalizeTest);
             list.add(sprintfTest);
             list.add(swapCaseTest);
+            list.add(titleTest);
             list.add(trimTest);
             return list;
         }

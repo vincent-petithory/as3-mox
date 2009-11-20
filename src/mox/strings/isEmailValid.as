@@ -22,11 +22,12 @@
 package mox.strings 
 {
 
-public const isEmailValid:Function = function (email:String):Boolean 
-{
-	return __REG_EXP_EMAIL.test(email);
-}
+	public function isEmailValid(email:String):Boolean 
+	{
+		return __REG_EXP_EMAIL.test(email);
+	}
 
 }
 
-internal const __REG_EXP_EMAIL:RegExp = new RegExp("^\\w+\\.*[0-9A-Za-z]+@\\w+\\.[a-zA-Z]{2,6}$");
+internal const __REG_EXP_EMAIL:RegExp = 
+					new RegExp("^\\w+\\.*[0-9A-Za-z]+@\\w+\\.[a-zA-Z]{2,6}$");

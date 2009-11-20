@@ -1,5 +1,5 @@
 /*
- * nothing.as
+ * capitalizeTest.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,20 +19,32 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package 
+package mox.strings 
 {
-   
-   /**
-    * The nothing constant is an additional type to 
-    * <code>null</code> and <code>void</code>.
-    * 
-    * <p>It is mainly used as a return type. As an example, a function 
-    * may return the value of an array's item. If that item does not exist, 
-    * typically, either null is returned or an error is thrown. The problem is 
-    * that the item can have the <code>null</code> value. 
-    * Using the <code>nothing</code> constant instead of 
-    * <code>null</code> makes clear an item does not exist.</p>
-    */
-   public const nothing:* = new Object();
-   
+    import flash.utils.getTimer;
+    import astre.api.*;
+
+    public class capitalizeTest extends Test 
+    {
+        public function capitalizeTest(name:String)
+        {
+            super(name);
+        }
+        
+        public function basicCapitalizeTest():void
+        {
+            var string:String = "some text to capitalize";
+			var expected:String = "Some text to capitalize";
+			assertEquals(expected, capitalize(string));
+        }
+		
+		public function capitalizePolicyWithFirstCharsThatAreNotALetter():void
+		{
+			var string:String = "_ i wont be capitalized so easily";
+			var expected:String = "_ i wont be capitalized so easily";
+			assertEquals(expected, capitalize(string));
+		}
+		
+    }
+    
 }

@@ -1,5 +1,5 @@
 /*
- * assert.as
+ * AllTests.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,29 +19,22 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox.logic 
+package mox.algorithm 
 {
-
-    /**
-     * Asserts that the specified condition is true. 
-     * If not, an error is thrown with the specified message.
-     * 
-     * <p>Optionally, a custom error can be provided. 
-     * It will then be filled with the message parameter.</p>
-     * 
-     * @throws Error if the condition is not true
-     */
-    public function assert(condition:Boolean, message:String, error:Error = null):void
-    {
-        if (!condition)
-        {
-            if (error == null)
-                error = new Error();
-            
-            error.message = message;
-            throw error;
-        }
-    }
     
+    import astre.api.*;
+
+    public final class AllTests 
+    {
+        
+        public static function suite():TestSuite
+        {
+            var list:TestSuite = new TestSuite();
+            list.add(assertTest);
+            list.add(equalsAnyTest);
+            return list;
+        }
+        
+    }
 }
 
