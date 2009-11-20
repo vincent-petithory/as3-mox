@@ -77,13 +77,10 @@ public final class ColorMatrixUtils
 	 */
 	public static function createNegative():Array
 	{
-		var cm:Array = new Array();
-		cm = cm.concat([-1, 0, 0, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE]);
-		cm = cm.concat([0, -1, 0, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE]);
-		cm = cm.concat([0, 0, -1, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE]);
-		cm = cm.concat([0, 0, 0, 1, 0]);
-		
-		return cm;
+		return [-1, 0, 0, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE, 
+				0, -1, 0, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE, 
+				0, 0, -1, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE, 
+				0, 0, 0, 1, 0];
 	}
 	
 	/**
@@ -96,23 +93,16 @@ public final class ColorMatrixUtils
 	public static function adjustLightness(l:Number):Array
 	{
 		if (l < -100)
-		{
 			l = -100;
-		}
 		else if (l > 100)
-		{
 			l = 100;
-		}
 		
 		l /= 100;
 		
-		var cm:Array = new Array();
-		cm = cm.concat([1, 0, 0, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE*l]);
-		cm = cm.concat([0, 1, 0, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE*l]);
-		cm = cm.concat([0, 0, 1, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE*l]);
-		cm = cm.concat([0, 0, 0, 1, 0]);
-		
-		return cm;
+		return [-1, 0, 0, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE*l, 
+				0, -1, 0, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE*l, 
+				0, 0, -1, 0, ColorMatrixUtils.CHANNEL_MAX_VALUE*l, 
+				0, 0, 0, 1, 0];
 	}
 	
 	/**
@@ -126,13 +116,10 @@ public final class ColorMatrixUtils
 	{
 		s /= 100;
 		
-		var cm:Array = new Array();
-		cm = cm.concat([(1-s)*R_LUM + s, (1-s)*G_LUM, (1-s)*B_LUM, 0, 0]);
-		cm = cm.concat([(1-s)*R_LUM, (1-s)*G_LUM + s, (1-s)*B_LUM, 0, 0]);
-		cm = cm.concat([(1-s)*R_LUM, (1-s)*G_LUM, (1-s)*B_LUM + s, 0, 0]);
-		cm = cm.concat([0, 0, 0, 1, 0]);
-		
-		return cm;
+		return [(1-s)*R_LUM + s, (1-s)*G_LUM, (1-s)*B_LUM, 0, 0, 
+				(1-s)*R_LUM, (1-s)*G_LUM + s, (1-s)*B_LUM, 0, 0, 
+				(1-s)*R_LUM, (1-s)*G_LUM, (1-s)*B_LUM + s, 0, 0, 
+				0, 0, 0, 1, 0];
 	}
 	
 	/**
@@ -160,13 +147,10 @@ public final class ColorMatrixUtils
 		var g2:Number = G_LUM - c*G_LUM + s*G_LUM;
 		var b2:Number = B_LUM + c*(1-B_LUM) + s*B_LUM;
 		
-		var cm:Array = new Array();
-		cm = cm.concat([r0, g0, b0, 0, 0]);
-		cm = cm.concat([r1, g1, b1, 0, 0]);
-		cm = cm.concat([r2, g2, b2, 0, 0]);
-		cm = cm.concat([0, 0, 0, 1, 0]);
-		
-		return cm;
+		return [r0, g0, b0, 0, 0, 
+				r1, g1, b1, 0, 0, 
+				r2, g2, b2, 0, 0, 
+				0, 0, 0, 1, 0];
 	}
 	
 	/**
@@ -180,13 +164,10 @@ public final class ColorMatrixUtils
 	{
 		contrast /= 100;
 		
-		var cm:Array = new Array();
-		cm = cm.concat([(1+contrast), 0, 0, 0, 128*contrast]);
-		cm = cm.concat([0, (1+contrast), 0, 0, 128*contrast]);
-		cm = cm.concat([0, 0, (1+contrast), 0, 128*contrast]);
-		cm = cm.concat([0, 0, 0, 1, 0]);
-		
-		return cm;
+		return [(1+contrast), 0, 0, 0, 128*contrast, 
+				0, (1+contrast), 0, 0, 128*contrast, 
+				0, 0, (1+contrast), 0, 128*contrast, 
+				0, 0, 0, 1, 0];
 	}
 	
 	/**
@@ -207,14 +188,10 @@ public final class ColorMatrixUtils
 		magentaGreenLevel /= 100;
 		yellowBlueLevel /= 100;
 		
-		var cm:Array = new Array();
-		
-		cm = cm.concat([(1+Math.pow(redCyanLevel,3)), Math.pow(redCyanLevel,3), Math.pow(redCyanLevel,3), 0, 0]);
-		cm = cm.concat([Math.pow(magentaGreenLevel,3), (1+Math.pow(magentaGreenLevel,3)), Math.pow(magentaGreenLevel,3), 0, 0]);
-		cm = cm.concat([Math.pow(yellowBlueLevel,3), Math.pow(yellowBlueLevel,3), (1+Math.pow(yellowBlueLevel,3)), 0, 0]);
-		cm = cm.concat([0, 0, 0, 1, 0]);
-		
-		return cm;
+		return [(1+Math.pow(redCyanLevel,3)), Math.pow(redCyanLevel,3), Math.pow(redCyanLevel,3), 0, 0, 
+				Math.pow(magentaGreenLevel,3), (1+Math.pow(magentaGreenLevel,3)), Math.pow(magentaGreenLevel,3), 0, 0, 
+				Math.pow(yellowBlueLevel,3), Math.pow(yellowBlueLevel,3), (1+Math.pow(yellowBlueLevel,3)), 0, 0, 
+				0, 0, 0, 1, 0];
 	}
 	
 	/**
@@ -225,13 +202,10 @@ public final class ColorMatrixUtils
 	 */
 	public static function adjustAlpha(alpha:Number):Array
 	{
-		var cm:Array = new Array();
-		cm = cm.concat([1, 0, 0, 0, 0]);
-		cm = cm.concat([0, 1, 0, 0, 0]);
-		cm = cm.concat([0, 0, 1, 0, 0]);
-		cm = cm.concat([0, 0, 0, alpha, 0]);
-		
-		return cm;
+		return [1, 0, 0, 0, 0, 
+				0, 1, 0, 0, 0, 
+				0, 0, 1, 0, 0, 
+				0, 0, 0, alpha, 0];
 	}
 	
 	/**
@@ -250,13 +224,10 @@ public final class ColorMatrixUtils
 		var b:int = useBlue ? 1 : 0;
 		var a:int = useAlpha ? 1 : 0;
 		
-		var cm:Array = new Array();
-		cm = cm.concat([r, 0, 0, 0, 0]);
-		cm = cm.concat([0, g, 0, 0, 0]);
-		cm = cm.concat([0, 0, b, 0, 0]);
-		cm = cm.concat([0, 0, 0, a, 0]);
-		
-		return cm;
+		return [r, 0, 0, 0, 0, 
+				0, g, 0, 0, 0, 
+				0, 0, b, 0, 0, 
+				0, 0, 0, a, 0];
 	}
 	
 	/**
@@ -266,13 +237,10 @@ public final class ColorMatrixUtils
 	 */
 	public static function createGrayScale():Array
 	{
-		var cm:Array = new Array();
-		cm = cm.concat([R_LUM, G_LUM, B_LUM, 0, 0]);
-		cm = cm.concat([R_LUM, G_LUM, B_LUM, 0, 0]);
-		cm = cm.concat([R_LUM, G_LUM, B_LUM, 0, 0]);
-		cm = cm.concat([0, 0, 0, 1, 0]);
-		
-		return cm;
+		return [R_LUM, G_LUM, B_LUM, 0, 0, 
+				R_LUM, G_LUM, B_LUM, 0, 0, 
+				R_LUM, G_LUM, B_LUM, 0, 0, 
+				0, 0, 0, 1, 0];
 	}
 	
 	/**
@@ -287,13 +255,10 @@ public final class ColorMatrixUtils
 	 */
 	public static function createYLuminance():Array
 	{
-		var cm:Array = new Array();
-		cm = cm.concat([0.299, 0.587, 0.114, 0, 0]);
-		cm = cm.concat([0.299, 0.587, 0.114, 0, 0]);
-		cm = cm.concat([0.299, 0.587, 0.114, 0, 0]);
-		cm = cm.concat([0, 0, 0, 1, 0]);
-		
-		return cm;
+		return [0.299, 0.587, 0.114, 0, 0, 
+				0.299, 0.587, 0.114, 0, 0, 
+				0.299, 0.587, 0.114, 0, 0, 
+				0, 0, 0, 1, 0];
 	}
 	
 	/**
@@ -304,13 +269,10 @@ public final class ColorMatrixUtils
 	 */
 	public static function createUChrominance():Array
 	{
-		var cm:Array = new Array();
-		cm = cm.concat([-0.169, -0.331, 0.500, 0, 128]);
-		cm = cm.concat([-0.169, -0.331, 0.500, 0, 128]);
-		cm = cm.concat([-0.169, -0.331, 0.500, 0, 128]);
-		cm = cm.concat([0, 0, 0, 1, 0]);
-		
-		return cm;
+		return [-0.169, -0.331, 0.500, 0, 128, 
+				-0.169, -0.331, 0.500, 0, 128, 
+				-0.169, -0.331, 0.500, 0, 128, 
+				0, 0, 0, 1, 0];
 	}
 	
 	/**
@@ -321,13 +283,10 @@ public final class ColorMatrixUtils
 	 */
 	public static function createVChrominance():Array
 	{
-		var cm:Array = new Array();
-		cm = cm.concat([0.500, -0.419, -0.081, 0, 128]);
-		cm = cm.concat([0.500, -0.419, -0.081, 0, 128]);
-		cm = cm.concat([0.500, -0.419, -0.081, 0, 128]);
-		cm = cm.concat([0, 0, 0, 1, 0]);
-		
-		return cm;
+		return [0.500, -0.419, -0.081, 0, 128, 
+				0.500, -0.419, -0.081, 0, 128, 
+				0.500, -0.419, -0.081, 0, 128, 
+				0, 0, 0, 1, 0];
 	}
 	
 	/**
@@ -356,9 +315,7 @@ public final class ColorMatrixUtils
 			}
 			i+=5;
 		}
-		
 		return temp;
-		
 	}
 	
 	/**
@@ -372,27 +329,11 @@ public final class ColorMatrixUtils
 	 */
 	public static function createColorMatrix(line1:Array, line2:Array, line3:Array, line4:Array):Array
 	{
-		while (line1.length > 5)
-		{
-			line1.pop();
-		}
-		while (line2.length > 5)
-		{
-			line2.pop();
-		}
-		while (line3.length > 5)
-		{
-			line3.pop();
-		}
-		while (line4.length > 5)
-		{
-			line4.pop();
-		}
-		
-		var colorMatrix:Array = new Array();
-		colorMatrix = colorMatrix.concat(line1, line2, line3, line4);
-		
-		return colorMatrix;
+		line1.length = 5;
+		line2.length = 5;
+		line3.length = 5;
+		line4.length = 5;
+		return line1.concat(line2,line3,line4);
 	}
 	
 }

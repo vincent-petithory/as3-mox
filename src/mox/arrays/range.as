@@ -21,7 +21,11 @@
  */
 package mox.arrays 
 {
-
+    
+    /** 
+     * @param array an object with the [] operator, and a writeable 
+     * length property.
+     */
     public function range(array:*, start:Number, end:Number, step:Number = 1):*
     {
         if (step==0)
