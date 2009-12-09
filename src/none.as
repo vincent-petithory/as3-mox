@@ -1,5 +1,5 @@
 /*
- * nothing.as
+ * none.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -23,16 +23,16 @@ package
 {
    
    /**
-    * The nothing constant is an additional type to 
+    * The none constant is an additional type to 
     * <code>null</code> and <code>void</code>.
     * 
     * <p>It is mainly used as a return type. As an example, a function 
     * may return the value of an array's item. If that item does not exist, 
     * typically, either null is returned or an error is thrown. The problem is 
     * that the item can have the <code>null</code> value. 
-    * Using the <code>nothing</code> constant instead of 
+    * Using the <code>none</code> constant instead of 
     * <code>null</code> makes clear an item does not exist.</p>
     */
-   public const nothing:* = new Object();
+   public const none:* = new Object();
    
 }
