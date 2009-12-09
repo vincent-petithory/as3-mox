@@ -19,16 +19,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox 
+package mox.crypto 
 {
     
     import astre.api.*;
-    
-    import mox.arrays.*;
-    import mox.crypto.*;
-    import mox.dev.*;
-    import mox.algorithm.*;
-    import mox.signals.*;
     
     public final class AllTests 
     {
@@ -36,11 +30,7 @@ package mox
         public static function suite():TestSuite
         {
             var list:TestSuite = new TestSuite();
-            list.add(mox.arrays.AllTests.suite());
-            list.add(mox.crypto.AllTests.suite());
-            list.add(mox.dev.AllTests.suite());
-            list.add(mox.algorithm.AllTests.suite());
-            list.add(mox.signals.AllTests.suite());
+            list.add(SHA1Test);
             return list;
         }
         

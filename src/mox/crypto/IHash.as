@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * IHash.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,31 +19,27 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox 
+package mox.crypto 
 {
-    
-    import astre.api.*;
-    
-    import mox.arrays.*;
-    import mox.crypto.*;
-    import mox.dev.*;
-    import mox.algorithm.*;
-    import mox.signals.*;
-    
-    public final class AllTests 
+
+    import flash.utils.ByteArray;
+
+    /**
+     * This interface defines how classes that implement hash algorithms 
+     * behaves.
+     * 
+     */
+    public interface IHash 
     {
         
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.arrays.AllTests.suite());
-            list.add(mox.crypto.AllTests.suite());
-            list.add(mox.dev.AllTests.suite());
-            list.add(mox.algorithm.AllTests.suite());
-            list.add(mox.signals.AllTests.suite());
-            return list;
-        }
+        function update(input:*):void
+        function digest():ByteArray;
+        function hexDigest():String;
+        function copy():IHash;
+        
+        function toString():String;
+        function valueOf():ByteArray;
         
     }
+    
 }
-
