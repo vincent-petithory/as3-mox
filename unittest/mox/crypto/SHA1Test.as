@@ -78,7 +78,6 @@ package mox.crypto
 			var sha:SHA1 = new SHA1();
 			sha.update("12345678901234567890123456789012345678901234567890123456789012345678901234567890");
 			assertEquals("50abf5706a150990a08b2c5ea40fa0e585554732", sha.hexDigest());
-			trace("-----------------");
 		}
 		
 		public function numericRepeatTest3():void

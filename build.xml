@@ -29,7 +29,7 @@
 	<!-- The project major version -->
 	<property name="project.version.major" value="0" />
 	<!-- The project minor version -->
-	<property name="project.version.minor" value="16" />
+	<property name="project.version.minor" value="17" />
 	
 	<!-- Compile time properties -->
 	<property name="debug" value="true" />
