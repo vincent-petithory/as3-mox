@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * toHexTest.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,33 +19,39 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox 
+package mox.numbers 
 {
-    
-    import astre.api.*;
-    
-    import mox.algorithm.*;
-    import mox.arrays.*;
-    import mox.crypto.*;
-    import mox.dev.*;
-    import mox.numbers.*;
-    import mox.signals.*;
-    
-    public final class AllTests 
-    {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.algorithm.AllTests.suite());
-            list.add(mox.arrays.AllTests.suite());
-            list.add(mox.crypto.AllTests.suite());
-            list.add(mox.dev.AllTests.suite());
-            list.add(mox.numbers.AllTests.suite());
-            list.add(mox.signals.AllTests.suite());
-            return list;
-        }
-        
-    }
-}
 
+	import astre.api.*;
+	
+	import flash.utils.Endian;
+	
+	public class toHexTest extends Test 
+	{
+		public function toHexTest(name:String)
+		{
+			super(name);
+		}
+		
+		public function bigEndianTest():void
+		{
+			var n:uint = 0x01234567;
+			assertEquals("01234567",toHex(n,Endian.BIG_ENDIAN));
+		}
+		
+		public function nullEndianTest():void
+		{
+			var n:uint = 0x01234567;
+			assertEquals("01234567",toHex(n,null));
+			assertEquals("01234567",toHex(n));
+		}
+		
+		public function littleEndianTest():void
+		{
+			var n:uint = 0x01234567;
+			assertEquals("67452301",toHex(n, Endian.LITTLE_ENDIAN));
+		}
+		
+	}
+	
+}

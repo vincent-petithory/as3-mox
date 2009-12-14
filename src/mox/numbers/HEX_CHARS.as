@@ -1,5 +1,5 @@
 /*
- * AllTests.as
+ * HEX_CHARS.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,33 +19,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox 
+package mox.numbers 
 {
-    
-    import astre.api.*;
-    
-    import mox.algorithm.*;
-    import mox.arrays.*;
-    import mox.crypto.*;
-    import mox.dev.*;
-    import mox.numbers.*;
-    import mox.signals.*;
-    
-    public final class AllTests 
-    {
-        
-        public static function suite():TestSuite
-        {
-            var list:TestSuite = new TestSuite();
-            list.add(mox.algorithm.AllTests.suite());
-            list.add(mox.arrays.AllTests.suite());
-            list.add(mox.crypto.AllTests.suite());
-            list.add(mox.dev.AllTests.suite());
-            list.add(mox.numbers.AllTests.suite());
-            list.add(mox.signals.AllTests.suite());
-            return list;
-        }
-        
-    }
-}
 
+    public const HEX_CHARS:String = "0123456789abcdef";
+    
+}

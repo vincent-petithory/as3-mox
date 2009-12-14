@@ -21,14 +21,29 @@
  */
 package mox.numbers 
 {
-
-	public const toHex:Function = function (color:uint):String
+	
+	import flash.utils.Endian;
+	
+	public function toHex(n:uint, endian:String = null):String
 	{
-		var s:String = color.toString(16);
-		while (s.length<6)
-			s = "0"+s;
-		
-		return "0x"+s;
+		if (endian == null || endian == Endian.BIG_ENDIAN)
+			return 	HEX_CHARS.charAt((n >> 28) & 0xf)+
+					HEX_CHARS.charAt((n >> 24) & 0xf)+
+					HEX_CHARS.charAt((n >> 20) & 0xf)+
+					HEX_CHARS.charAt((n >> 16) & 0xf)+
+					HEX_CHARS.charAt((n >> 12) & 0xf)+
+					HEX_CHARS.charAt((n >> 8) & 0xf)+
+					HEX_CHARS.charAt((n >> 4) & 0xf)+
+					HEX_CHARS.charAt(n & 0xf);
+		else
+			return	HEX_CHARS.charAt((n >> 4) & 0xf)+
+					HEX_CHARS.charAt(n & 0xf)+
+					HEX_CHARS.charAt((n >> 12) & 0xf)+
+					HEX_CHARS.charAt((n >> 8) & 0xf)+
+					HEX_CHARS.charAt((n >> 20) & 0xf)+
+					HEX_CHARS.charAt((n >> 16) & 0xf)+
+					HEX_CHARS.charAt((n >> 28) & 0xf)+
+					HEX_CHARS.charAt((n >> 24) & 0xf);
 	}
 	
 }
