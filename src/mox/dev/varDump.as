@@ -22,10 +22,10 @@
 package mox.dev 
 {
 
-    public function varDump(val:*, indent:int = 4, prefix:int = 0, outputStream:Function = null):String
+    public function varDump(val:*, depth:int = -1, outputStream:Function = null, indent:int = 4, prefix:int = 0):String
     {
-        this.varDumpRefsIndex = new Array();
-        var output:String = __dump__(val,indent,prefix);
+        varDumpRefsIndex = new Array();
+        var output:String = __dump__(val,depth == -1 ? -1 : depth+1,indent,prefix);
         if (outputStream != null)
         {
             outputStream.call(null,output);
@@ -34,7 +34,7 @@ package mox.dev
         {
             stdout.call(null,output);
         }
-        this.varDumpRefsIndex = null;
+        varDumpRefsIndex = null;
         return output;
     }
     
@@ -48,10 +48,10 @@ import mox.reflect.getClassName;
 import mox.reflect.isSimpleType;
 import mox.reflect.isComplexType;
 
-internal function __dump__(val:*, indent:int = 4, prefix:int = 0):String
+internal function __dump__(val:*, depth:int = -1, indent:int = 4, prefix:int = 0):String
 {
     if (isComplexType(val))
-        this.varDumpRefsIndex.push(val);
+        varDumpRefsIndex.push(val);
     
     var out:String;
     var i:int;
@@ -76,7 +76,7 @@ internal function __dump__(val:*, indent:int = 4, prefix:int = 0):String
     }
     else if (val is Boolean)
     {
-        out = prefixstr+"Boolean("+Boolean(val)+")";
+        out = prefixstr+"Boolean("+Boolean(val).toString()+")";
     }
     else if (val is XML)
     {
@@ -131,11 +131,14 @@ internal function __dump__(val:*, indent:int = 4, prefix:int = 0):String
         out = prefixstr+"array("+length+") [\n";
         for (i = 0; i<length; i++)
         {
-            if (isSimpleType(val[i]) || this.varDumpRefsIndex.indexOf(val[i]) == -1)
+            if (isSimpleType(val[i]) || varDumpRefsIndex.indexOf(val[i]) == -1)
             {
                 if (isComplexType(val[i]))
-                    this.varDumpRefsIndex.push(val[i]);
-                out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+__dump__(val[i], indent, prefix+indent)+"\n";
+                    varDumpRefsIndex.push(val[i]);
+                if (depth-1 == 0)
+                    out += prefixstr+indentstr+"["+i.toString()+"] => "+String(val[i])+"\n";
+                else
+                    out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+__dump__(val[i], depth-1, indent, prefix+indent)+"\n";
             }
             else
             {
@@ -150,11 +153,14 @@ internal function __dump__(val:*, indent:int = 4, prefix:int = 0):String
         var buf:String = "";
         for (prop in val)
         {
-            if (isSimpleType(val[prop]) || this.varDumpRefsIndex.indexOf(val[prop]) == -1)
+            if (isSimpleType(val[prop]) || varDumpRefsIndex.indexOf(val[prop]) == -1)
             {
                 if (isComplexType(val[prop]))
-                    this.varDumpRefsIndex.push(val[prop]);
-                buf += prefixstr+indentstr+"["+prop+"] =>\n"+__dump__(val[prop], indent, prefix+indent)+"\n";
+                    varDumpRefsIndex.push(val[prop]);
+                if (depth-1 == 0)
+                    buf += prefixstr+indentstr+"["+prop+"] => "+String(val[prop])+"\n";
+                else
+                    buf += prefixstr+indentstr+"["+prop+"] =>\n"+__dump__(val[prop], depth-1, indent, prefix+indent)+"\n";
             }
             else
             {
@@ -178,11 +184,14 @@ internal function __dump__(val:*, indent:int = 4, prefix:int = 0):String
         out = prefixstr+vectorType+"("+length+","+val.fixed+") [\n";
         for (i = 0; i<length; i++)
         {
-            if (isSimpleType(val[i]) || this.varDumpRefsIndex.indexOf(val[i]) == -1)
+            if (isSimpleType(val[i]) || varDumpRefsIndex.indexOf(val[i]) == -1)
             {
                 if (isComplexType(val[i]))
-                    this.varDumpRefsIndex.push(val[i]);
-                out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+__dump__(val[i], indent, prefix+indent)+"\n";
+                    varDumpRefsIndex.push(val[i]);
+                if (depth-1 == 0)
+                    out += prefixstr+indentstr+"["+i.toString()+"] => "+String(val[i])+"\n";
+                else
+                    out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+__dump__(val[i], depth-1, indent, prefix+indent)+"\n";
             }
             else
             {
@@ -210,16 +219,18 @@ internal function __dump__(val:*, indent:int = 4, prefix:int = 0):String
         var props:XMLList = describeType(val).children().(localName() == "accessor" || localName() == "variable" || localName() == "constant").(attribute("access") == undefined || attribute("access").toString().indexOf("writeonly") == -1).@name;
         for each (prop in props)
         {
-            // Catch illegal access to some getters (like some of the Stage class)
-            
+            // Catch illegal access (like getters of the Stage class)
             try 
             {
                 var theValue:* = val[prop];
-                if (isSimpleType(theValue) || this.varDumpRefsIndex.indexOf(theValue) == -1)
+                if (isSimpleType(theValue) || varDumpRefsIndex.indexOf(theValue) == -1)
                 {
                     if (isComplexType(theValue))
-                        this.varDumpRefsIndex.push(theValue);
-                    out += prefixstr+indentstr+"["+prop+"] =>\n"+__dump__(theValue, indent, prefix+indent)+"\n";
+                        varDumpRefsIndex.push(theValue);
+                    if (depth-1 == 0)
+                        out += prefixstr+indentstr+"["+prop+"] => "+String(theValue)+"\n";
+                    else
+                        out += prefixstr+indentstr+"["+prop+"] =>\n"+__dump__(theValue, depth-1, indent, prefix+indent)+"\n";
                 }
                 else
                 {
@@ -228,18 +239,21 @@ internal function __dump__(val:*, indent:int = 4, prefix:int = 0):String
             } catch (e:Error)
             {
                 // the property could not be accessed
-                out += prefixstr+indentstr+"["+prop+"] => <Unreadable property>\n";
+                out += prefixstr+indentstr+"["+prop+"] => *Failed to access property. Cause : '"+e.message+"'*\n";
             }
         }
         
         // loop on dynamic properties
         for (prop in val)
         {
-            if (isSimpleType(val[prop]) || this.varDumpRefsIndex.indexOf(val[prop]) == -1)
+            if (isSimpleType(val[prop]) || varDumpRefsIndex.indexOf(val[prop]) == -1)
             {
                 if (isComplexType(val[prop]))
-                    this.varDumpRefsIndex.push(val[prop]);
-                out += prefixstr+indentstr+"["+prop+"] =>\n"+__dump__(val[prop], indent, prefix+indent)+"\n";
+                    varDumpRefsIndex.push(val[prop]);
+                if (depth-1 == 0)
+                    out += prefixstr+indentstr+"["+prop+"] => "+String(val[prop])+"\n";
+                else
+                    out += prefixstr+indentstr+"["+prop+"] =>\n"+__dump__(val[prop], depth-1, indent, prefix+indent)+"\n";
             }
             else
             {
