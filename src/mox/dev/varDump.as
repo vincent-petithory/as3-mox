@@ -210,15 +210,25 @@ internal function __dump__(val:*, indent:int = 4, prefix:int = 0):String
         var props:XMLList = describeType(val).children().(localName() == "accessor" || localName() == "variable" || localName() == "constant").(attribute("access") == undefined || attribute("access").toString().indexOf("writeonly") == -1).@name;
         for each (prop in props)
         {
-            if (isSimpleType(val[prop]) || this.varDumpRefsIndex.indexOf(val[prop]) == -1)
+            // Catch illegal access to some getters (like some of the Stage class)
+            
+            try 
             {
-                if (isComplexType(val[prop]))
-                    this.varDumpRefsIndex.push(val[prop]);
-                out += prefixstr+indentstr+"["+prop+"] =>\n"+__dump__(val[prop], indent, prefix+indent)+"\n";
-            }
-            else
+                var theValue:* = val[prop];
+                if (isSimpleType(theValue) || this.varDumpRefsIndex.indexOf(theValue) == -1)
+                {
+                    if (isComplexType(theValue))
+                        this.varDumpRefsIndex.push(theValue);
+                    out += prefixstr+indentstr+"["+prop+"] =>\n"+__dump__(theValue, indent, prefix+indent)+"\n";
+                }
+                else
+                {
+                    out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+"*RECURSION*\n";
+                }
+            } catch (e:Error)
             {
-                out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+"*RECURSION*\n";
+                // the property could not be accessed
+                out += prefixstr+indentstr+"["+prop+"] => <Unreadable property>\n";
             }
         }
         
