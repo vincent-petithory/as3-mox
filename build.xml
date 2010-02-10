@@ -46,10 +46,10 @@
 	/>
 	
 	<!-- metadata -->
-	<property name="project.metadata.title" value="'@your-project-title@'" />
-	<property name="project.metadata.description" value="'@your-project-description@'" />
-	<property name="project.metadata.publisher" value="'@your-project-publisher@'" />
-	<property name="project.metadata.creator" value="'@your-project-creator@'" />
+	<property name="project.metadata.title" value="'Mox Project'" />
+	<property name="project.metadata.description" value="'A utility library'" />
+	<property name="project.metadata.publisher" value="'Vincent Petithory'" />
+	<property name="project.metadata.creator" value="'Vincent Petithory'" />
 	<property name="project.metadata.language" value="EN" />
 	
 	<!-- Standard targets -->

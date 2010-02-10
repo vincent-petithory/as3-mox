@@ -32,25 +32,27 @@ package mox.strings
 	 */
 	internal dynamic class _Unicode extends Proxy 
 	{
-	
+		
+		
+		
 		// Spacing
-		public const TAB:String = "\u0009";
-		public const VERTICAL_TAB:String = "\u000B";
-		public const FORM_FEED:String = "\u000C";
-		public const SPACE:String = "\u0020";
-		public const LINE_FEED:String = "\u000A";
-		public const CARRIAGE_RETURN:String = "\u000D";
-		public const BACKSPACE:String = "\u0008";
-		public const HORIZONTAL_TAB:String = "\u0009";
+		public const TAB:String = hexChar(0x0009);
+		public const VERTICAL_TAB:String = hexChar(0x000B);
+		public const FORM_FEED:String = hexChar(0x000C);
+		public const SPACE:String = hexChar(0x0020);
+		public const LINE_FEED:String = hexChar(0x000A);
+		public const CARRIAGE_RETURN:String = hexChar(0x000D);
+		public const BACKSPACE:String = hexChar(0x0008);
+		public const HORIZONTAL_TAB:String = hexChar(0x0009);
 	
 		// Quotes
-		public const DOUBLE_QUOTE:String = "\u0022";
-		public const SINGLE_QUOTE:String = "\u0027";
+		public const DOUBLE_QUOTE:String = hexChar(0x0022);
+		public const SINGLE_QUOTE:String = hexChar(0x0027);
 	
-		public const BACKSLASH:String = "\u005C";
+		public const BACKSLASH:String = hexChar(0x005C);
 	
 		// Special chars
-		public const COPYRIGHT:String = "\u00A9";
+		public const COPYRIGHT:String = hexChar(0x00A9);
 	
 		override flash_proxy function callProperty(name:*, ...rest):* 
 		{
@@ -61,7 +63,7 @@ package mox.strings
 		{
 			return __jsEscapes(name);
 		}
-	
+		
 		public function char(hex:String):String
 		{
 			// hex : xxxx

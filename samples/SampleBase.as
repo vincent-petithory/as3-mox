@@ -50,7 +50,7 @@ package
             
             sampleName = getClassName(this);
             prefix = "["+sampleName+"] ";
-            this.addEventListener(Event.RESIZE, onResize);
+            this.stage.addEventListener(Event.RESIZE, onResize);
             
             textfield.appendText("**** Mox library sample '"+sampleName+"' ****\n\n");
         }

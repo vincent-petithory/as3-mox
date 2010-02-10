@@ -26,7 +26,7 @@ package mox.strings
 	 * Formats the specified string, using the specified values.
 	 * @param str the string to format.
 	 * @param values a collection of values to insert. 
-	 * It can be an Array, Vector.<*>, Dictionary, Object, or any object that 
+	 * It can be an Array, Vector.&lt;*&gt;, Dictionary, Object, or any object that 
 	 * matches the keys of the string.
 	 */
     public function sprintf(string:String, values:* = undefined):String
