@@ -40,7 +40,7 @@ package mox.graphics.bitmaps
     [Event(name="complete", type="flash.events.Event")]
     [Event(name="open", type="flash.events.Event")]
 
-    public class _BitmapLoader extends EventDispatcher 
+    internal class _BitmapLoader extends EventDispatcher 
     {
 	
 	    private static const IMAGES_FILTER:Array = [new FileFilter("Images", "*.jpg;*.gif;*.png")];

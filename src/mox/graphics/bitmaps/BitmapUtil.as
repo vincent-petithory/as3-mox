@@ -26,6 +26,7 @@ package mox.graphics.bitmaps
 	import flash.display.DisplayObject;
 	import flash.display.IBitmapDrawable;
 	import flash.display.Shape;
+	import flash.display.Sprite;
 	import flash.filters.BitmapFilter;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
@@ -48,7 +49,7 @@ public final class BitmapUtil
 	 * @param smooth set to <code class="prettyprint">true</code> to enable smoothing during process.
 	 * @return the resized image.
 	 */
-	public static function adapt(source:IBitmapDrawable, output:IBitmapOutput, maxWidth:Number, maxHeight:Number, smooth:Boolean = false):void
+	public static function adapt(source:IBitmapDrawable, maxWidth:Number, maxHeight:Number, smooth:Boolean = false):BitmapData
 	{
 		var bitmapData:BitmapData = BitmapUtil.toBitmapData(source);
 			
@@ -69,11 +70,14 @@ public final class BitmapUtil
 		}
 		
 		matrix = new Matrix(drawRatio, 0, 0, drawRatio);
-		output.drawBitmap(bitmapData,matrix,bitmapData.width*drawRatio,bitmapData.height*drawRatio,smooth);
+		
+		var bitmap:BitmapData = new BitmapData(bitmapData.width*drawRatio,bitmapData.height*drawRatio,true,0x00000000);
+        bitmap.draw(bitmapData,matrix,null,null,null,smooth);
+        return bitmap;
 	}
-	public static function adaptForSize(source:IBitmapDrawable, output:IBitmapOutput, availableSize:Number, smooth:Boolean = false):void
+	public static function adaptForSize(source:IBitmapDrawable, availableSize:Number, smooth:Boolean = false):BitmapData
 	{
-		adapt(source,output,availableSize,availableSize,smooth);
+		return adapt(source,availableSize,availableSize,smooth);
 	}
 	
 	/**
@@ -89,7 +93,7 @@ public final class BitmapUtil
 	 * @param smooth set to <code class="prettyprint">true</code> to enable smoothing during process.
 	 * @return the resized image.
 	 */
-	public static function clip(source:IBitmapDrawable, output:IBitmapOutput, width:Number, height:Number, smooth:Boolean = false):void
+	public static function clip(source:IBitmapDrawable, width:Number, height:Number, smooth:Boolean = false):BitmapData
 	{
 		var bitmapData:BitmapData = BitmapUtil.toBitmapData(source);
 			
@@ -106,45 +110,9 @@ public final class BitmapUtil
 			matrix = new Matrix(width/bitmapData.width, 0, 0, width/bitmapData.width);
 		}
 		
-		output.drawBitmap(bitmapData,matrix,width,height,smooth);
-	}
-	
-	public static function toDisplayObject(source:IBitmapDrawable):DisplayObject
-	{
-		var bmp:BitmapData = toBitmapData(source);
-		var s:Shape = new Shape();
-		s.graphics.beginBitmapFill(bmp, new Matrix());
-		s.graphics.drawRect(0, 0, bmp.width, bmp.height);
-		s.graphics.endFill();
-		return s;
-	}
-	
-	/**
-	 * Returns a bitmap of the provided object.
-	 * @param source the graphic object.
-	 * @return a bitmap data of the provided object
-	 */
-	public static function toBitmapData(source:IBitmapDrawable, smooth:Boolean = false):BitmapData
-	{
-		var bitmapData:BitmapData;
-		
-		if (source is BitmapData)
-		{
-            bitmapData = source as BitmapData;
-		    bitmapData = new BitmapData(bitmapData.width, bitmapData.height, bitmapData.transparent, 0x00000000);
-			bitmapData.draw(source,null,null,null,null,smooth);
-			return (source as BitmapData).clone();
-		}
-		else if (source is Bitmap)
-		{
-			return toBitmapData((source as Bitmap).bitmapData,smooth);
-		}
-		else // it is a display object
-		{
-			bitmapData = new BitmapData((source as DisplayObject).width, (source as DisplayObject).height, true, 0x00000000);
-			bitmapData.draw(source,null,null,null,null,smooth);
-			return bitmapData;
-		}
+		var bitmap:BitmapData = new BitmapData(width,height,true,0x00000000);
+        bitmap.draw(bitmapData,matrix,null,null,null,smooth);
+        return bitmap;
 	}
 	
 	/**
@@ -157,36 +125,87 @@ public final class BitmapUtil
 	 * @param smooth set to <code class="prettyprint">true</code> to enable smoothing during process.
 	 * @return the resized image.
 	 */
-	public static function stretch(source:IBitmapDrawable, output:IBitmapOutput, width:Number, height:Number, smooth:Boolean = false):void
+	public static function stretch(source:IBitmapDrawable, width:Number, height:Number, smooth:Boolean = false):BitmapData
 	{
 		var bitmapData:BitmapData = BitmapUtil.toBitmapData(source);
 			
 		var matrix:Matrix = new Matrix(width/bitmapData.width, 0, 0, height/bitmapData.height);
-		output.drawBitmap(bitmapData,matrix,width,height,smooth);
+		var bitmap:BitmapData = new BitmapData(width,height,true,0x00000000);
+        bitmap.draw(bitmapData,matrix,null,null,null,smooth);
+        return bitmap;
 	}
 	
-	public static function horizontalMirror(source:IBitmapDrawable, output:IBitmapOutput, smooth:Boolean = false):void
+	/**
+	 * @param displayObject must have a graphics property
+	 */
+	public static function toDisplayObject(source:IBitmapDrawable, displayObject:DisplayObject):void
+	{
+		var bmp:BitmapData = toBitmapData(source);
+		if (displayObject is Sprite || displayObject is Shape)
+		{
+			displayObject["graphics"].beginBitmapFill(bmp, new Matrix());
+			displayObject["graphics"].drawRect(0, 0, bmp.width, bmp.height);
+			displayObject["graphics"].endFill();
+		}
+		else if (displayObject is Bitmap)
+		{
+			(displayObject as Bitmap).bitmapData = bmp;
+		}
+	}
+	
+	/**
+	 * Returns a bitmap of the provided object.
+	 * @param source the graphic object.
+	 * @return a bitmap data of the provided object
+	 */
+	public static function toBitmapData(source:IBitmapDrawable):BitmapData
+	{
+		var bitmapData:BitmapData;
+		
+		if (source is BitmapData)
+		{
+            return (source as BitmapData).clone();
+		}
+		else if (source is Bitmap)
+		{
+			return (source as Bitmap).bitmapData.clone();
+		}
+		else // it is a display object
+		{
+			bitmapData = new BitmapData((source as DisplayObject).width, (source as DisplayObject).height, true, 0x00000000);
+			bitmapData.draw(source);
+			return bitmapData;
+		}
+	}
+	
+	public static function horizontalMirror(source:IBitmapDrawable, smooth:Boolean = false):BitmapData
 	{
 		var bitmapData:BitmapData = toBitmapData(source);
 		var matrix:Matrix = new Matrix(-1, 0, 0, 1, bitmapData.width);
 		
-		output.drawBitmap(bitmapData,matrix,bitmapData.width,bitmapData.height,smooth);
+		var bitmap:BitmapData = new BitmapData(bitmapData.width,bitmapData.height,true,0x00000000);
+        bitmap.draw(bitmapData,matrix,null,null,null,smooth);
+        return bitmap;
 	}
 	
-	public static function verticalMirror(source:IBitmapDrawable, output:IBitmapOutput, smooth:Boolean = false):void
+	public static function verticalMirror(source:IBitmapDrawable, smooth:Boolean = false):BitmapData
 	{
 		var bitmapData:BitmapData = toBitmapData(source);
 		var matrix:Matrix = new Matrix(1, 0, 0, -1, 0, bitmapData.height);
 		
-		output.drawBitmap(bitmapData,matrix,bitmapData.width,bitmapData.height,smooth);
+		var bitmap:BitmapData = new BitmapData(bitmapData.width,bitmapData.height,true,0x00000000);
+        bitmap.draw(bitmapData,matrix,null,null,null,smooth);
+        return bitmap;
 	}
 	
-	public static function mirror(source:IBitmapDrawable, output:IBitmapOutput, smooth:Boolean = false):void
+	public static function mirror(source:IBitmapDrawable, smooth:Boolean = false):BitmapData
 	{
 		var bitmapData:BitmapData = toBitmapData(source);
 		var matrix:Matrix = new Matrix(-1, 0, 0, -1, bitmapData.width, bitmapData.height);
 		
-		output.drawBitmap(bitmapData,matrix,bitmapData.width,bitmapData.height,smooth);
+		var bitmap:BitmapData = new BitmapData(bitmapData.width,bitmapData.height,true,0x00000000);
+        bitmap.draw(bitmapData,matrix,null,null,null,smooth);
+        return bitmap;
 	}
 	
 	/**
@@ -250,30 +269,38 @@ public final class BitmapUtil
 		return copy;
 	}
 	
-	public static function leftHorizontalCut(source:IBitmapDrawable, output:IBitmapOutput, xRatio:Number = 0.5, smooth:Boolean = false):void
+	public static function leftHorizontalCut(source:IBitmapDrawable, xRatio:Number = 0.5, smooth:Boolean = false):BitmapData
 	{
 		var bitmapData:BitmapData = toBitmapData(source);
-		output.drawBitmap(bitmapData,new Matrix(),bitmapData.width*xRatio,bitmapData.height,smooth);
+		var bitmap:BitmapData = new BitmapData(bitmapData.width*xRatio,bitmapData.height,true,0x00000000);
+        bitmap.draw(bitmapData,new Matrix(),null,null,null,smooth);
+        return bitmap;
 	}
 	
-	public static function rightHorizontalCut(source:IBitmapDrawable, output:IBitmapOutput, xRatio:Number = 0.5, smooth:Boolean = false):void
+	public static function rightHorizontalCut(source:IBitmapDrawable, xRatio:Number = 0.5, smooth:Boolean = false):BitmapData
 	{
 		var bitmapData:BitmapData = toBitmapData(source);
 		var indentMatrix:Matrix = new Matrix(1, 0, 0, 1, -bitmapData.width*xRatio, 0);
-		output.drawBitmap(bitmapData, indentMatrix, bitmapData.width*(1-xRatio), bitmapData.height, smooth);
+		var bitmap:BitmapData = new BitmapData(bitmapData.width*(1-xRatio),bitmapData.height,true,0x00000000);
+        bitmap.draw(bitmapData,indentMatrix,null,null,null,smooth);
+        return bitmap;
 	}
 	
-	public static function topVerticalCut(source:IBitmapDrawable, output:IBitmapOutput, yRatio:Number = 0.5, smooth:Boolean = false):void
+	public static function topVerticalCut(source:IBitmapDrawable, yRatio:Number = 0.5, smooth:Boolean = false):BitmapData
 	{
 		var bitmapData:BitmapData = toBitmapData(source);
-		output.drawBitmap(bitmapData, new Matrix(), bitmapData.width, bitmapData.height*yRatio, smooth);
+		var bitmap:BitmapData = new BitmapData(bitmapData.width,bitmapData.height*yRatio,true,0x00000000);
+        bitmap.draw(bitmapData,new Matrix(),null,null,null,smooth);
+        return bitmap;
 	}
 	
-	public static function bottomVerticalCut(source:IBitmapDrawable, output:IBitmapOutput, yRatio:Number = 0.5, smooth:Boolean = false):void
+	public static function bottomVerticalCut(source:IBitmapDrawable, yRatio:Number = 0.5, smooth:Boolean = false):BitmapData
 	{
 		var bitmapData:BitmapData = toBitmapData(source);
 		var indentMatrix:Matrix = new Matrix(1, 0, 0, 1, 0, -bitmapData.height*yRatio);
-		output.drawBitmap(bitmapData, indentMatrix, bitmapData.width, bitmapData.height*(1-yRatio), smooth);
+		var bitmap:BitmapData = new BitmapData(bitmapData.width,bitmapData.height*(1-yRatio),true,0x00000000);
+        bitmap.draw(bitmapData,indentMatrix,null,null,null,smooth);
+        return bitmap;
 	}
 	
 	public static function applyFilter(targetBitmapData:BitmapData, sourceBitmapData:BitmapData, sourceRect:Rectangle, destPoint:Point, filter:BitmapFilter):BitmapData
