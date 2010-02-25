@@ -50,7 +50,6 @@ package mox.ui.skins
             this.graphics.drawRect(0,0,this.width,this.height);
             this.graphics.endFill();
             
-            trace(this, this.width, this.height);
             this._textfield.x = 3;
             this._textfield.y = 3;
             this._textfield.width = this.width-6;
