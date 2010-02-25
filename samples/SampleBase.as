@@ -32,62 +32,38 @@ package
     import flash.text.TextFormat;
     
     import mox.reflect.getClassName;
+    import mox.ui.Console;
+    import mox.ui.skins.ConsoleSkin;
     
     public class SampleBase extends Sprite 
     {
     
-        private var textfield:TextField;
+        private var console:Console;
     
         public function SampleBase()
         {
             this.stage.align = StageAlign.TOP_LEFT;
             this.stage.scaleMode = StageScaleMode.NO_SCALE;
-            textfield = new TextField();
-            addChild(textfield);
-            textfield.selectable = true;
-            textfield.defaultTextFormat = new TextFormat("sans",10,0xFFFFFF);
+            this.console = new Console(new ConsoleSkin());
+            addChild(this.console);
             this.pack();
             
-            sampleName = getClassName(this);
-            prefix = "["+sampleName+"] ";
+            var sampleName:String = getClassName(this);
+            this.console.println("**** Mox library sample '"+sampleName+"' ****");
+            this.console.println("");
+            this.console.headerLog = sampleName;
             this.stage.addEventListener(Event.RESIZE, onResize);
-            
-            textfield.appendText("**** Mox library sample '"+sampleName+"' ****\n\n");
         }
-        
-        private var sampleName:String;
-        private var prefix:String;
         
         public function println(...args):void
         {
-            var str:String = "";
-            for each (var arg:* in args)
-            {
-                str += String(arg)+",";
-            }
-            str = str.substr(0,str.length-1);
-            trace(prefix+str);
-            textfield.appendText(prefix);
-            var lineStartIndex:int = textfield.text.lastIndexOf(prefix);
-            textfield.setTextFormat(
-                new TextFormat("sans",10,0x6699FF), 
-                lineStartIndex, 
-                lineStartIndex + prefix.length - 1 
-            );
-            textfield.appendText(str+"\n");
+            this.console.println.apply(this.console, args);
         }
         
         public function pack():void
         {
-            this.graphics.clear();
-            this.graphics.beginFill(0x333333);
-            this.graphics.drawRect(0,0,stage.stageWidth,stage.stageHeight);
-            this.graphics.endFill();
-            
-            textfield.x = 3;
-            textfield.y = 3;
-            textfield.width = stage.stageWidth-6;
-            textfield.height = stage.stageHeight-6;
+            this.console.width = stage.stageWidth;
+            this.console.height = stage.stageHeight;
         }
         
         private function onResize(event:Event):void
