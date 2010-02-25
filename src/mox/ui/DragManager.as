@@ -78,6 +78,7 @@
 	    {
 		    $currentDropAcceptor = object;
 		    _layer.stage.addEventListener(MouseEvent.MOUSE_UP, onDragDrop, false, 99);
+		    _layer.stage.addEventListener(MouseEvent.MOUSE_MOVE, onDragMove, false);
 		    this.dispatchEvent(new DragManagerEvent(DragManagerEvent.FLASH_DRAG_ACCEPT, $currentTarget, $currentDropAcceptor));
 	    }
 	
@@ -164,7 +165,6 @@
 	    private function onDragOver(e:MouseEvent):void 
 	    {
 		    $currentTarget = e.target as InteractiveObject;
-		    _layer.stage.addEventListener(MouseEvent.MOUSE_MOVE, onDragMove, false);
 		    var event:DragEvent = new DragEvent(DragEvent.FLASH_DRAG_ENTER, false, $dragData, $allowedActions, _action);
 		    $currentTarget.dispatchEvent(event);
 	    }
