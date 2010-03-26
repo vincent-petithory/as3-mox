@@ -19,10 +19,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox.arrays 
+package mox.lists 
 {
 	
-	public const vectorToArray:Function = function(vector:*):Array
+	/**
+	 * Creates an array from a vector.
+	 * 
+	 * @param vector The vector to process.
+	 * @return An Array with the elements of the vector.
+	 */
+	public function vectorToArray(vector:*):Array
 	{
 		var n:int = vector.length;
 		var array:Array = new Array(n);

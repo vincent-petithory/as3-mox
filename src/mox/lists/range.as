@@ -19,12 +19,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox.arrays 
+package mox.lists 
 {
     
     /** 
+	 * Constructs a list of number starting 
+	 * from 'start' to 'end', with a 'step' increment.
+	 * 
      * @param array an object with the [] operator, and a writeable 
-     * length property.
+     * length property (any dynamic object, array or vector.&lt;Number|int|uint&gt;
      */
     public function range(array:*, start:Number, end:Number, step:Number = 1):*
     {

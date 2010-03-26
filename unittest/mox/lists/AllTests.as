@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox.arrays 
+package mox.lists 
 {
 
     import astre.api.*;
@@ -30,7 +30,9 @@ package mox.arrays
         public static function suite():TestSuite
         {
             var list:TestSuite = new TestSuite();
-            list.add(WeakArrayTest);
+            // We disable this one since it takes a lot of time, 
+            // and we know it works (and has no dependancies)
+            //list.add(WeakArrayTest);
             list.add(DictionaryIteratorTest);
             list.add(ListIteratorTest);
             list.add(vectorToArrayTest);
