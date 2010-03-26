@@ -21,6 +21,11 @@
  */
 package mox.strings 
 {
-	public const Unicode:_Unicode = new _Unicode();
+	/**
+	 * A global instance of UnicodeImpl.
+	 * @see UnicodeImpl
+	 */
+	public const Unicode:UnicodeImpl = new UnicodeImpl();
+	
 }	
 

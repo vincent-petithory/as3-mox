@@ -1,5 +1,5 @@
 /*
- * tokenPattern.as
+ * name.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -21,11 +21,27 @@
  */
 package mox.strings 
 {
-	
-	/**
-	 * Defines the pattern that token-based functions 
-	 * use to manipulate strings.
-	 */
-	public const tokenPattern:RegExp = /{[\d|\w]+}/g;
+    
+    /**
+     * Extracts the name of a file from a path or URL.
+     * The path can contain slashes or backslashes.
+     * 
+     * <p>For example: 
+     * <pre>
+     * import mox.strings.*;
+     * var path:String = "/etc/apache2/httpd.conf";
+     * var filename:String = name(path);
+     * trace(filename); // "httpd.conf"
+     * </pre>
+     * </p>
+     * 
+     * @param path The path or URL to process.
+     * @return The name of a file, or the input string if this one is 
+     * incorrect (or already a file name) .
+     */
+    public function name(path:String):String
+    {
+        return path.substring(path.replace(Patterns.ANTI_SLASHES, "/").lastIndexOf("/")+1);
+    }
     
 }

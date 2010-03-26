@@ -23,27 +23,28 @@ package mox.numbers
 {
 	
 	import flash.utils.Endian;
+	import mox.strings.Chars;
 	
 	public function toHex(n:uint, endian:String = null):String
 	{
 		if (endian == null || endian == Endian.BIG_ENDIAN)
-			return 	HEX_CHARS.charAt((n >> 28) & 0xf)+
-					HEX_CHARS.charAt((n >> 24) & 0xf)+
-					HEX_CHARS.charAt((n >> 20) & 0xf)+
-					HEX_CHARS.charAt((n >> 16) & 0xf)+
-					HEX_CHARS.charAt((n >> 12) & 0xf)+
-					HEX_CHARS.charAt((n >> 8) & 0xf)+
-					HEX_CHARS.charAt((n >> 4) & 0xf)+
-					HEX_CHARS.charAt(n & 0xf);
+			return 	Chars.HEX.charAt((n >> 28) & 0xf)+
+					Chars.HEX.charAt((n >> 24) & 0xf)+
+					Chars.HEX.charAt((n >> 20) & 0xf)+
+					Chars.HEX.charAt((n >> 16) & 0xf)+
+					Chars.HEX.charAt((n >> 12) & 0xf)+
+					Chars.HEX.charAt((n >> 8) & 0xf)+
+					Chars.HEX.charAt((n >> 4) & 0xf)+
+					Chars.HEX.charAt(n & 0xf);
 		else
-			return	HEX_CHARS.charAt((n >> 4) & 0xf)+
-					HEX_CHARS.charAt(n & 0xf)+
-					HEX_CHARS.charAt((n >> 12) & 0xf)+
-					HEX_CHARS.charAt((n >> 8) & 0xf)+
-					HEX_CHARS.charAt((n >> 20) & 0xf)+
-					HEX_CHARS.charAt((n >> 16) & 0xf)+
-					HEX_CHARS.charAt((n >> 28) & 0xf)+
-					HEX_CHARS.charAt((n >> 24) & 0xf);
+			return	Chars.HEX.charAt((n >> 4) & 0xf)+
+					Chars.HEX.charAt(n & 0xf)+
+					Chars.HEX.charAt((n >> 12) & 0xf)+
+					Chars.HEX.charAt((n >> 8) & 0xf)+
+					Chars.HEX.charAt((n >> 20) & 0xf)+
+					Chars.HEX.charAt((n >> 16) & 0xf)+
+					Chars.HEX.charAt((n >> 28) & 0xf)+
+					Chars.HEX.charAt((n >> 24) & 0xf);
 	}
 	
 }

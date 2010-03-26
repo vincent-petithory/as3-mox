@@ -40,11 +40,12 @@ package mox.reflect
 	 * @return <code class="prettyprint">true</code> if the provided parameter 
 	 * pass is of one of the quoted types.
 	 */
-	public function isSimpleType(obj:Object):Boolean
+	public function isSimpleType(obj:*):Boolean
 	{
 		if (obj is Boolean || 
 			obj is int || obj is Number || 
-			obj is String || obj is uint
+			obj is String || obj is uint || 
+			obj == null || obj == undefined
 		)
 		{
 			return true;

@@ -1,5 +1,5 @@
 /*
- * isEmailValid.as
+ * Chars.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -18,14 +18,19 @@
  * along with Mox; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
- */ 
+ */
 package mox.strings 
 {
 
-	public function isEmailValid(email:String):Boolean 
-	{
-		return Patterns.EMAIL.test(email);
-	}
-
+    public class Chars  
+    {
+        
+        public static const HEX:String = "0123456789abcdef";
+        public static const NUMERIC:String = "0123456789";
+        public static const UPPERCASE:String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public static const LOWERCASE:String = "abcdefghijklmnopqrstuvwxyz";
+        public static const ALPHANUMERIC:String = NUMERIC+UPPERCASE+LOWERCASE;
+        
+    }
+    
 }
-					

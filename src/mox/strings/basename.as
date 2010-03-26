@@ -1,5 +1,5 @@
 /*
- * HEX_CHARS.as
+ * basename.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -19,9 +19,30 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-package mox.numbers 
+package mox.strings 
 {
-
-    public const HEX_CHARS:String = "0123456789abcdef";
+    
+    /**
+     * Extracts the basename of a path or URL. 
+     * The basename does not contain a trailing slash.
+     * The path can contain slashes or backslashes.
+     * 
+     * <p>For example: 
+     * <pre>
+     * import mox.strings.*;
+     * var path:String = "/etc/apache2/httpd.conf";
+     * var basepath:String = basename(path);
+     * trace(basepath); // "/etc/apache2"
+     * </pre>
+     * </p>
+     * 
+     * @param path The path or URL to process.
+     * @return The base name of a path, or an empty string, 
+     * if the input string is not a path or URL.
+     */
+    public function basename(path:String):String
+    {
+        return path.substring(0,path.replace(Patterns.ANTI_SLASHES, "/").lastIndexOf("/"));
+    }
     
 }

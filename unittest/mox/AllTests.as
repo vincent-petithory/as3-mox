@@ -25,11 +25,12 @@ package mox
     import astre.api.*;
     
     import mox.algorithm.*;
-    import mox.arrays.*;
+    import mox.lists.*;
     import mox.crypto.*;
     import mox.dev.*;
     import mox.numbers.*;
     import mox.signals.*;
+    import mox.strings.*;
     
     public final class AllTests 
     {
@@ -38,11 +39,12 @@ package mox
         {
             var list:TestSuite = new TestSuite();
             list.add(mox.algorithm.AllTests.suite());
-            list.add(mox.arrays.AllTests.suite());
+            list.add(mox.lists.AllTests.suite());
             list.add(mox.crypto.AllTests.suite());
             list.add(mox.dev.AllTests.suite());
             list.add(mox.numbers.AllTests.suite());
             list.add(mox.signals.AllTests.suite());
+            list.add(mox.strings.AllTests.suite());
             return list;
         }
         

@@ -32,6 +32,7 @@ package mox.strings
             var list:TestSuite = new TestSuite();
             list.add(camelCaseTest);
             list.add(capitalizeTest);
+            list.add(endsWithTest);
             list.add(sprintfTest);
             list.add(swapCaseTest);
             list.add(titleTest);

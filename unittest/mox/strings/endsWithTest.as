@@ -1,5 +1,5 @@
 /*
- * isEmailValid.as
+ * endsWithTest.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -18,14 +18,28 @@
  * along with Mox; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
- */ 
+ */
 package mox.strings 
 {
 
-	public function isEmailValid(email:String):Boolean 
-	{
-		return Patterns.EMAIL.test(email);
-	}
+    import astre.api.*;
 
+    public class endsWithTest extends Test 
+    {
+        public function endsWithTest(name:String)
+        {
+            super(name);
+        }
+        
+        public function endsWithBatchTests():void
+        {
+			assertTrue(endsWith("/usr/local/src/wsgi/django.wsgi","django.wsgi"));
+			assertTrue(endsWith("somefile.test","t"));
+			assertFalse(endsWith("somefile.test","t.test"));
+			assertTrue(endsWith("what did you say ?"," ?"));
+			assertFalse(endsWith("what did you say ?","!"));
+        }
+		
+    }
+    
 }
-					

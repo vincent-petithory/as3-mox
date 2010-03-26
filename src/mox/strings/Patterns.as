@@ -1,5 +1,5 @@
 /*
- * isEmailValid.as
+ * Patterns.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -18,14 +18,17 @@
  * along with Mox; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
- */ 
+ */
 package mox.strings 
 {
 
-	public function isEmailValid(email:String):Boolean 
-	{
-		return Patterns.EMAIL.test(email);
-	}
-
+    public class Patterns  
+    {
+        
+        public static const EMAIL:RegExp = new RegExp("^\\w+\\.*[0-9A-Za-z]+@\\w+\\.[a-zA-Z]{2,6}$");
+        public static const ANTI_SLASHES:RegExp = /\\/g;
+        public static const SPRINTF:RegExp = /{[\d|\w]+}/g;
+        
+    }
+    
 }
-					

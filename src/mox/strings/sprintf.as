@@ -32,15 +32,21 @@ package mox.strings
     public function sprintf(string:String, values:* = undefined):String
 	{
 		regexpValues = values;
-		var stringOut:String = string.replace(tokenPattern, repFunc);
+		var stringOut:String = string.replace(Patterns.SPRINTF, repFunc);
 		regexpValues = null;
 		return stringOut;
 	}
     
 }
 
+/** 
+ * @private
+ */
 internal var regexpValues:*;
 
+/** 
+ * @private
+ */
 internal const repFunc:Function = function():String 
 {
 	var token:String = arguments[0];
