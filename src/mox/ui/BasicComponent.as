@@ -23,6 +23,8 @@ package mox.ui
 {
 
     import flash.display.Sprite;
+    import flash.display.DisplayObject;
+    import mox.ui.skins.ISkin;
     import mox.callLater;
 
     public class BasicComponent extends Sprite 
@@ -41,8 +43,7 @@ package mox.ui
         
         override public function set width(value:Number):void
         {
-            this._width = value;
-            callLater(refresh);
+            this.setSize(value,this._height);
         }
         
         private var _height:Number = 0;
@@ -54,11 +55,38 @@ package mox.ui
         
         override public function set height(value:Number):void
         {
-            this._height = value;
+            this.setSize(this._width,value);
+        }
+        
+        public function setSize(width:Number, height:Number):void
+        {
+            this._width = width;
+            this._height = height;
             callLater(refresh);
         }
         
         public function refresh():void {}
+        
+        protected var dskin:DisplayObject;
+        
+        protected function setSkin(skin:ISkin):void
+        {
+            this.removeCurrentSkin();
+            this.dskin = skin as DisplayObject;
+            if (this.dskin == null)
+                throw new Error("The skin is not a DisplayObject");
+            this.addChildAt(this.dskin, 0);
+            skin.host = this;
+        }
+        
+        protected function removeCurrentSkin():void
+        {
+            if (this.dskin && this.contains.(this.dskin))
+            {
+                this.removeChild(this.dskin);
+                (this.dskin as ISkin).host = null;
+            }
+        }
         
     }
     

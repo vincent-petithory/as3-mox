@@ -23,7 +23,6 @@ package mox.ui
 {
     
     import mox.ui.skins.IConsoleSkin;
-    import flash.display.DisplayObject;
     
     public class Console extends BasicComponent  
     {
@@ -34,7 +33,6 @@ package mox.ui
             this.skin = skin;
         }
         
-        private var dskin:DisplayObject;
         private var _skin:IConsoleSkin;
         
         public function get skin():IConsoleSkin
@@ -46,13 +44,8 @@ package mox.ui
         {
             if (this._skin != value)
             {
-                if (this.dskin)
-                    this.removeChild(this.dskin);
+                this.setSkin(value);
                 this._skin = value;
-                this.dskin = this._skin as DisplayObject;
-                if (this.dskin == null)
-                    throw new Error("The skin is not a DisplayObject");
-                this.addChildAt(this.dskin ,0);
             }
         }
         

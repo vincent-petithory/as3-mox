@@ -1,5 +1,5 @@
 /*
- * IConsoleSkin.as
+ * ISkin.as
  * This file is part of Mox
  *
  * Copyright (C) 2009 - Vincent Petithory
@@ -21,12 +21,13 @@
  */
 package mox.ui.skins 
 {
-
-    import flash.text.TextField;
-
-    public interface IConsoleSkin extends ISkin 
-    {
-        function get textfield():TextField;
-    }
     
+    import flash.display.DisplayObjectContainer;
+    
+    public interface ISkin 
+    {
+        function get host():DisplayObjectContainer;
+        function set host(value:DisplayObjectContainer):void;
+    }
+
 }

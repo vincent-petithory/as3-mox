@@ -23,6 +23,7 @@ package mox.ui.skins
 {
 
     import mox.ui.BasicComponent;
+    import flash.display.DisplayObjectContainer;
     import flash.text.TextField;
     import flash.text.TextFormat;
 
@@ -34,6 +35,19 @@ package mox.ui.skins
             this._textfield = new TextField();
             this.addChild(this._textfield);
             this._textfield.defaultTextFormat = new TextFormat("sans",10,0xFFFFFF);
+            this._textfield.wordWrap = true;
+        }
+        
+        private var _host:DisplayObjectContainer;
+        
+        public function get host():DisplayObjectContainer
+        {
+            return _host;
+        }
+        
+        public function set host(value:DisplayObjectContainer):void
+        {
+            this._host = value;
         }
         
         private var _textfield:TextField;
