@@ -21,19 +21,21 @@
  */
 package mox.dev 
 {
-
-    public function varDump(val:*, depth:int = -1, outputStream:Function = null, indent:int = 4, prefix:int = 0):String
+	
+	/**
+	 * Dumps an object (very similar to PHP's var_dump() function.
+	 * 
+	 * @param val The object to dump
+	 * @param depth How deep to dump the properties of the object 
+	 * (defaults to dump everything)
+	 * @param indent The indent length, in spaces (defaults to 4 spaces)
+	 * @param prefix The prefix length, in spaces of the output string.
+	 * @return A dump of the object and its properties.
+	 */
+    public function varDump(val:*, depth:int = -1, indent:int = 4, prefix:int = 0):String
     {
         varDumpRefsIndex = new Array();
         var output:String = __dump__(val,depth == -1 ? -1 : depth+1,indent,prefix);
-        if (outputStream != null)
-        {
-            outputStream.call(null,output);
-        }
-        else if (stdout != null)
-        {
-            stdout.call(null,output);
-        }
         varDumpRefsIndex = null;
         return output;
     }
@@ -136,13 +138,16 @@ internal function __dump__(val:*, depth:int = -1, indent:int = 4, prefix:int = 0
                 if (isComplexType(val[i]))
                     varDumpRefsIndex.push(val[i]);
                 if (depth-1 == 0)
-                    out += prefixstr+indentstr+"["+i.toString()+"] => "+String(val[i])+"\n";
+                    out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+String(val[i])+"\n";
                 else
                     out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+__dump__(val[i], depth-1, indent, prefix+indent)+"\n";
             }
             else
             {
-                out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+prefixstr+indentstr+"*RECURSION*\n";
+                if (val[i] == null || val[i] == undefined)
+                    out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+prefixstr+indentstr+String(val[i])+"\n";
+                else
+                    out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+prefixstr+indentstr+"*RECURSION* ("+String(val[i])+")\n";
             }
         }
         out += prefixstr+"]";
@@ -158,13 +163,16 @@ internal function __dump__(val:*, depth:int = -1, indent:int = 4, prefix:int = 0
                 if (isComplexType(val[prop]))
                     varDumpRefsIndex.push(val[prop]);
                 if (depth-1 == 0)
-                    buf += prefixstr+indentstr+"["+prop+"] => "+String(val[prop])+"\n";
+                    buf += prefixstr+indentstr+"["+prop+"] =>\n"+String(val[prop])+"\n";
                 else
                     buf += prefixstr+indentstr+"["+prop+"] =>\n"+__dump__(val[prop], depth-1, indent, prefix+indent)+"\n";
             }
             else
             {
-                out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+"*RECURSION*\n";
+                if (val[prop] == null || val[prop] == undefined)
+                        out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+String(val[prop])+"\n";
+                else
+                    out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+"*RECURSION* ("+String(val[prop])+")\n";
             }
             length++;
         }
@@ -189,13 +197,16 @@ internal function __dump__(val:*, depth:int = -1, indent:int = 4, prefix:int = 0
                 if (isComplexType(val[i]))
                     varDumpRefsIndex.push(val[i]);
                 if (depth-1 == 0)
-                    out += prefixstr+indentstr+"["+i.toString()+"] => "+String(val[i])+"\n";
+                    out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+String(val[i])+"\n";
                 else
                     out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+__dump__(val[i], depth-1, indent, prefix+indent)+"\n";
             }
             else
             {
-                out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+prefixstr+indentstr+"*RECURSION*\n";
+                if (val[i] == null || val[i] == undefined)
+                    out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+prefixstr+indentstr+String(val[i])+"\n";
+                else
+                    out += prefixstr+indentstr+"["+i.toString()+"] =>\n"+prefixstr+indentstr+"*RECURSION* ("+String(val[i])+")\n";
             }
         }
         out += prefixstr+"]";
@@ -228,18 +239,21 @@ internal function __dump__(val:*, depth:int = -1, indent:int = 4, prefix:int = 0
                     if (isComplexType(theValue))
                         varDumpRefsIndex.push(theValue);
                     if (depth-1 == 0)
-                        out += prefixstr+indentstr+"["+prop+"] => "+String(theValue)+"\n";
+                        out += prefixstr+indentstr+"["+prop+"] =>\n"+String(theValue)+"\n";
                     else
                         out += prefixstr+indentstr+"["+prop+"] =>\n"+__dump__(theValue, depth-1, indent, prefix+indent)+"\n";
                 }
                 else
                 {
-                    out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+"*RECURSION*\n";
+                    if (theValue == null || theValue == undefined)
+                        out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+String(theValue)+"\n";
+                    else
+                        out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+"*RECURSION* ("+String(theValue)+")\n";
                 }
             } catch (e:Error)
             {
                 // the property could not be accessed
-                out += prefixstr+indentstr+"["+prop+"] => *Failed to access property. Cause : '"+e.message+"'*\n";
+                out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+"ACCESS DENIED:'"+e.message+"'\n";
             }
         }
         
@@ -251,13 +265,16 @@ internal function __dump__(val:*, depth:int = -1, indent:int = 4, prefix:int = 0
                 if (isComplexType(val[prop]))
                     varDumpRefsIndex.push(val[prop]);
                 if (depth-1 == 0)
-                    out += prefixstr+indentstr+"["+prop+"] => "+String(val[prop])+"\n";
+                    out += prefixstr+indentstr+"["+prop+"] =>\n"+String(val[prop])+"\n";
                 else
                     out += prefixstr+indentstr+"["+prop+"] =>\n"+__dump__(val[prop], depth-1, indent, prefix+indent)+"\n";
             }
             else
             {
-                out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+"*RECURSION*\n";
+                if (val[prop] == null || val[prop] == undefined)
+                        out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+String(val[prop])+"\n";
+                else
+                    out += prefixstr+indentstr+"["+prop+"] =>\n"+prefixstr+indentstr+"*RECURSION* ("+String(val[prop])+")\n";
             }
         }
         out += prefixstr+"}";

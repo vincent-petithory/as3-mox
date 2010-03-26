@@ -30,8 +30,9 @@ package
         {
             super();
             // display a string
-            var str:String = "I m a the value of a String";
-            println(varDump(str));
+            println("Dump of the main class of this swf:");
+            var depth:int = -1;
+            println(varDump(this, depth));
         }
         
     }
