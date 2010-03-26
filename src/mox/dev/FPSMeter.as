@@ -22,93 +22,86 @@
 package mox.dev 
 {
 	
-	public const FPSMeter:_FPSMeter = new _FPSMeter();
+	import flash.display.Shape;
+	import flash.events.Event;
+	import flash.utils.clearInterval;
+	import flash.utils.getTimer;
+	import flash.utils.setInterval;
 	
-}
-
-import flash.display.Shape;
-import flash.events.Event;
-import flash.utils.clearInterval;
-import flash.utils.getTimer;
-import flash.utils.setInterval;
-
-internal class _FPSMeter 
-{
-	
-	private static const defaultCallback:Function =  function ():void {trace("FPS::"+this.fps);}
-	
-	private var _updateTime:Number;
-	
-	public function get updateTime():Number { return _updateTime/1000; }
-	
-	public function set updateTime(value:Number):void 
+	/**
+	 * 
+	 */
+	public final class FPSMeter 
 	{
-		_updateTime = value*1000;
-		if (_running)
-		{
-			stop();
-			start();
-		}
-	}
-	
-	private var dispatcher:Shape;
-	
-	private var _fps:Number = 0;
-	
-	public function get fps():Number { return _fps; }
-	
-	private var _running:Boolean = false;
-	
-	public function get running():Boolean { return _running; }
-	
-	private var framesCount:int;
-	private var lastTimeMilestone:int;
-	private var intervalID:Number = NaN;
-	public var updateCallback:Function;
-	
-	public function _FPSMeter() 
-	{
-		super();
-		dispatcher = new Shape();
-		this.updateTime = 1;
-		this.updateCallback = defaultCallback;
-	}
-	
-	public function start(updateTime:Number = 1, callback:Function = null):void 
-	{
-		if (this._running) stop();
 		
-		if (callback != null) this.updateCallback = callback;
-		this.updateTime = updateTime;
-		framesCount = 0;
-		lastTimeMilestone = getTimer();
-		dispatcher.addEventListener(Event.ENTER_FRAME, onFrameAdd);
-		_running = true;
-		this.intervalID = setInterval(onUpdate, _updateTime);
-	}
-	
-	public function stop():void 
-	{
-		if (!isNaN(intervalID))
+		private static const DEFAULT_CALLBACK:Function =  function ():void {trace("FPS::"+fps);}
+		
+		private static var _updateTime:Number = 1000;
+		
+		public static function get updateTime():Number { return _updateTime/1000; }
+		
+		public static function set updateTime(value:Number):void 
 		{
-			clearInterval(intervalID);
+			_updateTime = value*1000;
+			if (_running)
+			{
+				stop();
+				start();
+			}
 		}
-		dispatcher.removeEventListener(Event.ENTER_FRAME, onFrameAdd);
-		_running = false;
+		
+		private static var dispatcher:Shape = new Shape();
+		
+		private static var _fps:Number = 0;
+		
+		public static function get fps():Number { return _fps; }
+		
+		private static var _running:Boolean = false;
+		
+		public static function get running():Boolean { return _running; }
+		
+		private static var framesCount:int;
+		private static var lastTimeMilestone:int;
+		private static var intervalID:Number = NaN;
+		public static var updateCallback:Function = DEFAULT_CALLBACK;
+		
+		public static function start(updateTime:Number = 1, callback:Function = null):void 
+		{
+			if (_running) stop();
+			
+			if (callback != null) updateCallback = callback;
+			FPSMeter.updateTime = updateTime;
+			framesCount = 0;
+			lastTimeMilestone = getTimer();
+			dispatcher.addEventListener(Event.ENTER_FRAME, onFrameAdd);
+			_running = true;
+			intervalID = setInterval(onUpdate, _updateTime);
+		}
+		
+		public static function stop():void 
+		{
+			if (!isNaN(intervalID))
+			{
+				clearInterval(intervalID);
+			}
+			dispatcher.removeEventListener(Event.ENTER_FRAME, onFrameAdd);
+			_running = false;
+		}
+		
+		private static function onFrameAdd(e:Event):void 
+		{
+			framesCount++;
+		}
+		
+		private static function onUpdate():void
+		{
+			var time:int = getTimer();  
+			_fps = framesCount/((time-lastTimeMilestone)/1000);
+			framesCount = 0;  
+			lastTimeMilestone = time;  
+			updateCallback();
+		}
+		
 	}
-	
-	private function onFrameAdd(e:Event):void 
-	{
-		framesCount++;
-	}
-	
-	private function onUpdate():void
-	{
-		var time:int = getTimer();  
-		this._fps = framesCount/((time-lastTimeMilestone)/1000);
-		framesCount = 0;  
-		lastTimeMilestone = time;  
-		updateCallback();
-	}
-	
+
 }
