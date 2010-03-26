@@ -35,10 +35,11 @@ package mox
 	 * <code class="prettyprint">thisArg</code> 
 	 * parameter is ignored.
 	 * @param closure the method to call on the next frame.
+	 * @param noDuplicates the method to call on the next frame.
 	 * @param thisArg the object the this keyword of the function references.
 	 * @param ...args the arguments to pass to the function.
 	 */
-	public const callLater:Function = function(closure:Function, thisArg:* = undefined, ...args):void 
+	public function callLater(closure:Function, noDuplicates:Boolean = true, thisArg:* = undefined, ...args):void 
 	{
 		if (callLaterObjs == null)
 		{
@@ -46,15 +47,19 @@ package mox
 		}
 		
 		var shouldAdd:Boolean = true;
-		var clo:CallLaterObj;
-		for each (clo in callLaterObjs)
+		if (noDuplicates)
 		{
-			if (clo.closure == closure)
+			var clo:CallLaterObj;
+			for each (clo in callLaterObjs)
 			{
-				shouldAdd = false;
-				break;
+				if (clo.closure == closure)
+				{
+					shouldAdd = false;
+					break;
+				}
 			}
 		}
+		
 		if (shouldAdd)
 		{
 			callLaterObjs.push(new CallLaterObj(closure, thisArg, args));
@@ -70,7 +75,7 @@ import flash.events.Event;
 /**
  * @private
  */
-internal var innerObj:Shape = new Shape();
+internal const innerObj:Shape = new Shape();
 
 /**
  * @private
@@ -83,11 +88,18 @@ internal var callLaterObjs:Vector.<CallLaterObj>;
 internal function onCallLaterClosure(event:Event):void 
 {
 	innerObj.removeEventListener(Event.ENTER_FRAME, onCallLaterClosure);
-	for each (var closure:CallLaterObj in callLaterObjs)
+	
+	// We make a buffer, so that if another callLater is called during 
+	// the following loop, there is no conflicts 
+	// in the actual callLaterObj list.
+	var buffer:Vector.<CallLaterObj> = callLaterObjs.slice();
+	callLaterObjs = null;
+	
+	for each (var closure:CallLaterObj in buffer)
 	{
 		closure.apply();
 	}
-	callLaterObjs = null;
+	buffer = null;
 }
 
 /**
