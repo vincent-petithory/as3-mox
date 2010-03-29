@@ -24,12 +24,12 @@ package mox.strings
     
     /**
      * Extracts the basename of a path or URL. 
-     * The basename does not contain a trailing slash.
+     * The returned basename does not contain a trailing slash.
      * The path can contain slashes or backslashes.
      * 
      * <p>For example: 
      * <pre>
-     * import mox.strings.*;
+     * import mox.strings.basename;
      * var path:String = "/etc/apache2/httpd.conf";
      * var basepath:String = basename(path);
      * trace(basepath); // "/etc/apache2"
