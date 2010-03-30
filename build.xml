@@ -29,7 +29,11 @@
 	<!-- The project major version -->
 	<property name="project.version.major" value="0" />
 	<!-- The project minor version -->
-	<property name="project.version.minor" value="19" />
+	<property name="project.version.minor" value="20" />
+	<!-- The project revision version -->
+	<property name="project.version.revision" value="0" />
+	<!-- The build revision version -->
+	<property name="project.version.build" value="59" />
 	
 	<!-- Compile time properties -->
 	<property name="debug" value="true" />
@@ -83,9 +87,22 @@
 	</target>
     
     <target name="all">
-    	<buildnumber file="${project.build.file}" />
     	<mkdir dir="${project.deps}" />
     	<mkdir dir="${project.lib}" />
+    	
+    	<copy 
+            file="${project.src}/mox/mox_version.as.in" 
+            tofile="${project.src}/mox/mox_version.as" 
+            overwrite="true" 
+        >
+        	<filterchain>
+        		<expandproperties />
+        		<tokenfilter>
+					<replacestring from="mox_version.as.in" to="mox_version.as" />
+				</tokenfilter>
+        	</filterchain>
+        </copy>
+    	
 		<compc air="${air}" failonerror="true">
 		    <arg value="-define=CFG::debug,${debug}" />
 		    <arg value="-define=CFG::air,${air}" />
@@ -137,6 +154,7 @@
 			<fileset dir="${project.check.bin}" includes="*.swf"/>
 			<fileset dir="${project.check.bin}" includes="*.xml" excludes="*-tmp.xml"/>
 		</delete>
+		<delete file="${project.src}/mox/mox_version.as" />
     </target>
 
 	<target name="check" description="runs unit tests">

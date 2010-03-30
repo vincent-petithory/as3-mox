@@ -45,6 +45,7 @@ package mox
             list.add(mox.numbers.AllTests.suite());
             list.add(mox.signals.AllTests.suite());
             list.add(mox.strings.AllTests.suite());
+            list.add(VersionTest);
             return list;
         }
         
